@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->increments("id");
-            $table->string('name', 255);
-            $table->string('email', 255)->unique();
-            $table->string('password', 255);
-            $table->string('role', 255);
-            $table->string("images", 255)->default('example.jpg');   
+            $table->integer(column: "user_id")->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table
+            ->foreign("user_id")
+            ->references("id")
+            ->on("users")
+            ->onUpdate("cascade")
+            ->onDelete("cascade");
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('customers');
     }
 };
