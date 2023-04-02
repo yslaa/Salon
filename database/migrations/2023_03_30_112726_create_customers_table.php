@@ -15,7 +15,6 @@ return new class extends Migration
             $table->increments("id");
             $table->integer(column: "user_id")->unsigned();
             $table->timestamps();
-            $table->softDeletes();
             $table
             ->foreign("user_id")
             ->references("id")
