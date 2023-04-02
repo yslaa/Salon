@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->increments("id");
             $table->integer(column: "user_id")->unsigned();
+            $table->string('employee_role', 255);
             $table->timestamps();
-            $table->softDeletes();
             $table
             ->foreign("user_id")
             ->references("id")
