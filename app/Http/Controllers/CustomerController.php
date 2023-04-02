@@ -94,14 +94,12 @@ class CustomerController extends Controller
             'name' => 'required',
             'email' => 'email|required|unique:users',
             'password' => 'required|min:4',
-            'images' => 'mimes:jpeg,png,jpg,gif,svg',
         ], [
             'name.required' => 'Please enter your name.',
             'email.required' => 'Please enter your email address.',
             'email.email' => 'Please enter a valid email address.',
             'password.required' => 'Please enter your password.',
             'password.min' => 'Your password must be at least 4 characters long.',
-            'images.mimes' => 'Please enter a valid image.',
         ]);
 
         $user = new User();
@@ -173,12 +171,10 @@ class CustomerController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'email|required',
-            'images' => 'mimes:jpeg,png,jpg,gif,svg',
         ], [
             'name.required' => 'Please enter your name.',
             'email.required' => 'Please enter your email address.',
             'email.email' => 'Please enter a valid email address.',
-            'images.mimes' => 'Please enter a valid image.',
         ]);
 
         $customers = User::find($id);
@@ -221,12 +217,10 @@ class CustomerController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'email|required',
-            'images' => 'mimes:jpeg,png,jpg,gif,svg',
         ], [
             'name.required' => 'Please enter your name.',
             'email.required' => 'Please enter your email address.',
             'email.email' => 'Please enter a valid email address.',
-            'images.mimes' => 'Please enter a valid image.',
         ]);
 
         $user = User::find($id);
