@@ -9,13 +9,6 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <h1 class="text-center">Employee Register</h1>
-                @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
-                @endif
 
                 <form action="{{ route('employee.register') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
