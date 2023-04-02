@@ -15,6 +15,8 @@
 -   `To ensure that your routes are functioning properly, run php artisan route:list`
 -   `The default Password for every user is 12345678`
 
+#### If You Encouter Captcha Error Watch From This [Link](https://www.youtube.com/watch?v=f5jQqWvw44U) 
+
 ---
 
 ## Submitted to: Rommel Dalisay
