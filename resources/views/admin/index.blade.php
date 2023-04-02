@@ -9,9 +9,8 @@
         <table class="table-auto">
             <tr class="text-center">
                 <th class="w-screen text-3xl">Admin Id</th>
-                <th class="w-screen text-3xl">Name</th>
-                <th class="w-screen text-3xl">Email</th>
-                <th class="w-screen text-3xl">Admin Pic</th>
+                70/
+                <th class="w-screen text-3xl">Name</th                <th class="w-screen text-3xl">Admin Pic</th>
                 <th class="w-screen text-3xl">Update</th>
                 <th class="w-screen text-3xl">Delete</th>
                 <th class="w-screen text-3xl">Restore</th>
@@ -33,9 +32,7 @@
                     <td class="text-center text-3xl">
                         {{ $admin->name }}
                     </td>
-                    <td class="text-center text-3xl">
-                        {{ $admin->email }}
-                    </td>
+                  
                     <td class="pl-6">
                         <img src="{{ asset('images/admin/' . $admin->images) }}" alt="I am A Pic" width="75"
                             height="75">
@@ -66,7 +63,7 @@
                     @if ($admin->deleted_at)
                         <td>
                             <a href="{{ route('admin.restore', $admin->id) }}">
-                                <p class="text-center text-red-700 text-lg bg-purple-500 p-2 mx-3">
+                                <p class="text-center text-lg bg-purple-500 p-2 mx-3">
                                     Restore &rarr;
                                 </p>
                             </a>

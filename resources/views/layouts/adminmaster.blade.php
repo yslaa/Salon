@@ -8,6 +8,8 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('src/css/app.css') }}">
     @yield('styles')
+    @vite('resources/js/app.js')
+
 </head>
 
 <body
