@@ -1,6 +1,6 @@
 ### Laravel-Salon
 
-## Run php:artisan migrate:fresh --seed to automatically create and delete if tables are already created.
+## Run php artisan migrate:fresh --seed to automatically create and delete if tables are already created.
 
 # HOW TO SETUP THIS PROJECT
 
@@ -15,7 +15,7 @@
 -   `To ensure that your routes are functioning properly, run php artisan route:list`
 -   `The default Password for every user is 12345678`
 
-#### If You Encouter Captcha Error Watch From This [Link](https://www.youtube.com/watch?v=f5jQqWvw44U) 
+#### If You Encouter Captcha Error Watch From This [Link](https://www.youtube.com/watch?v=f5jQqWvw44U)
 
 ---
 
