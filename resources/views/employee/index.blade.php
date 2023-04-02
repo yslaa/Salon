@@ -59,13 +59,23 @@
                         </td>
                     @endif
 
-                    <td class=" text-center">
-                        {!! Form::open(['route' => ['employee.destroy', $employee->id], 'method' => 'DELETE']) !!}
-                        <button type="submit" class="text-center text-lg bg-yellow-600 p-2">
-                            Delete &rarr;
-                        </button>
-                        {!! Form::close() !!}
-                    </td>
+                    @if ($admin->deleted_at)
+                        <td class=" text-center">
+                            {!! Form::open(['route' => ['admin.destroy', $admin->id], 'method' => 'DELETE']) !!}
+                            <button disabled class="text-center text-lg bg-yellow-600 p-2">
+                                Delete &rarr;
+                            </button>
+                            {!! Form::close() !!}
+                        </td>
+                    @else
+                        <td class=" text-center">
+                            {!! Form::open(['route' => ['admin.destroy', $admin->id], 'method' => 'DELETE']) !!}
+                            <button type="submit" class="text-center text-lg bg-yellow-600 p-2">
+                                Delete &rarr;
+                            </button>
+                            {!! Form::close() !!}
+                        </td>
+                    @endif
 
                     @if ($employee->deleted_at)
                         <td>
