@@ -9,8 +9,8 @@
         <table class="table-auto">
             <tr class="text-center">
                 <th class="w-screen text-3xl">Admin Id</th>
-                70/
-                <th class="w-screen text-3xl">Name</th                <th class="w-screen text-3xl">Admin Pic</th>
+                <th class="w-screen text-3xl">Name</th>
+                <th class="w-screen text-3xl">Admin Pic</th>
                 <th class="w-screen text-3xl">Update</th>
                 <th class="w-screen text-3xl">Delete</th>
                 <th class="w-screen text-3xl">Restore</th>
@@ -32,7 +32,7 @@
                     <td class="text-center text-3xl">
                         {{ $admin->name }}
                     </td>
-                  
+
                     <td class="pl-6">
                         <img src="{{ asset('images/admin/' . $admin->images) }}" alt="I am A Pic" width="75"
                             height="75">
