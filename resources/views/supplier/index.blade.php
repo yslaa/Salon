@@ -55,9 +55,9 @@
                         </td>
                     @endif
 
-                    @if ($admin->deleted_at)
+                    @if ($supplier->deleted_at)
                         <td class=" text-center">
-                            {!! Form::open(['route' => ['admin.destroy', $admin->id], 'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['supplier.destroy', $supplier->id], 'method' => 'DELETE']) !!}
                             <button disabled class="text-center text-lg bg-yellow-600 p-2">
                                 Delete &rarr;
                             </button>
@@ -65,7 +65,7 @@
                         </td>
                     @else
                         <td class=" text-center">
-                            {!! Form::open(['route' => ['admin.destroy', $admin->id], 'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['supplier.destroy', $supplier->id], 'method' => 'DELETE']) !!}
                             <button type="submit" class="text-center text-lg bg-yellow-600 p-2">
                                 Delete &rarr;
                             </button>
