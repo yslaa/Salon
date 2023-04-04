@@ -33,14 +33,8 @@
                         <div>
                             <ul class="nav navbar-nav">
                                 <li style="padding: 0 1rem;">
-                                    <a href="{{ url('/dashboard') }}">
-                                        Pet Diseases/Injuries Chart
-                                    </a>
-                                </li>
-
-                                <li style="padding: 0 1rem;">
-                                    <a href="{{ url('/dashboardtransac') }}">
-                                        Pets Groomed chart
+                                    <a href="{{ url('/dashboard/userRole') }}">
+                                        All User Chart
                                     </a>
                                 </li>
                         </div>
