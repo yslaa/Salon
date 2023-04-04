@@ -27,7 +27,7 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                        aria-expanded="false"><span style="font-size: 3rem;">&#128480;</span> Dashboard <span
+                        aria-expanded="false"><span style="font-size: 3rem;">&#128480;</span> Charts <span
                             class="caret"></span></a>
                     <ul class="dropdown-menu" style="font-size: 1.75rem;">
                         <div>
