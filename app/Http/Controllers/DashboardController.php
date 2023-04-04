@@ -10,8 +10,16 @@ use Illuminate\Support\Carbon;
 class DashboardController extends Controller
 {
 
-    public function __construct(){
-        $this->bgcolor = collect(['rgba(166, 8, 8, 0.56)','rgba(166, 160, 8, 0.58)', 'rgba(60, 8, 166, 0.58)',"rgba(166, 74, 8, 0.58)", "rgba(8, 102, 166, 0.58)", "rgba(8, 166, 105, 0.58)", "rgba(8, 42, 166, 0.58)", "rgba(8, 145, 166, 0.58)", "rgba(116, 8, 166, 0.58)", "#01FF70", "#85144b", "rgba(166, 89, 8, 0.58)", "rgba(8, 166, 97, 0.58)", "rgba(8, 166, 134, 0.58)", "rgba(8, 95, 166, 0.58)"]);
+    private function getRandomColors($count)
+    {
+        $bgColors = [];
+
+        for($i=0; $i<$count; $i++)
+        {
+            $bgColors[] = 'rgba('.rand(0,255).', '.rand(0,255).', '.rand(0,255).', 0.58)';
+        }
+
+        return $bgColors;
     }
 
     public function userRole()
@@ -28,7 +36,7 @@ class DashboardController extends Controller
 
         $dataset= $UserChart->dataset('User Roles', 'pie', array_values($users));
 
-        $dataset= $dataset->backgroundColor($this->bgcolor);
+        $dataset= $dataset->backgroundColor($this->getRandomColors(count($users)));
 
         $UserChart->options([
             'responsive' => true,
@@ -42,10 +50,10 @@ class DashboardController extends Controller
                     'type'=>'linear',
                     'ticks'=> [
                         'beginAtZero'=> true,
-                         'autoSkip' => true,
-                         'maxTicksLimit' => 10,
-                         'stepSize' => 1,
-                         'max' => 10
+                        'autoSkip' => true,
+                        'maxTicksLimit' => 10,
+                        'stepSize' => 1,
+                        'max' => 10
                     ]
                 ]]
             ]
