@@ -74,6 +74,8 @@ Route::group(['middleware' => 'role:admin'], function() {
   Route::get("/supplier/forceDelete/{id}", ["uses" => "supplierController@forceDelete","as" => "supplier.forceDelete"]);
   #Chart
   Route::get('/dashboard/userRole', ['uses' => 'DashboardController@userRole','as' => 'dashboard.userRole']);
+  #Search
+  Route::get('user/search', 'SearchController@search')->name('search.userRole');
 });
 
 Route::group(['middleware' => 'role:customer'], function() {
