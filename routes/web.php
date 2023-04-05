@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductModelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'login');
 
+// Route::resource('products', ProductModelController::class);
+
+// Route::get('products', ProductModelController::class, 'index');
+Route::get('/product', ['uses' => 'ProductModelController@index','as' => 'product.index']);
+
 Route::group(['middleware' => 'auth'], function() {
   Route::get('logout',['uses' => 'LoginController@logout','as' => 'user.logout']);
 });
@@ -22,6 +28,8 @@ Route::group(['middleware' => 'auth'], function() {
 Route::group(['middleware' => 'isLogin'], function() {
   Route::get('/login', ['uses' => 'LoginController@getSignIn','as' => 'user.signIns']);
   Route::post('/login', ['uses' => 'LoginController@postSignIn','as' => 'user.signIn']);
+
+  // Route::post('/product', ['uses' => 'ProductModelController@postSignIn','as' => 'user.signIn']);
   #Admin
   Route::get('/adminRegister', ['uses' => 'AdminController@getRegister','as' => 'admin.registers']);
   Route::post('/adminRegister', ['uses' => 'AdminController@postRegistered','as' => 'admin.register']);
