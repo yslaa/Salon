@@ -33,9 +33,7 @@
                     <div>
                         <label for="email" class="text-lg">Email</label>
                         {{ Form::text('email', null, [
-                            'class' => 'block shadow-5xl p-2 my-2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            w-full',
-                            'id' => 'email',
+                            'class' => 'block shadow-5xl p-2 my-2w-full','id' => 'email',
                         ]) }}
                         @if ($errors->has('email'))
                             <p class="text-center text-red-500">{{ $errors->first('email') }}</p>
@@ -46,7 +44,7 @@
                         <label for="employee_role">Employee Role</label>
                         {!! Form::select(
                             'employee_role',
-                            ['Veterinarian' => 'Veterinarian', 'Groomer' => 'Groomer', 'Assistant' => 'Assistant'],
+                            ['Hairdresser' => 'Hairdresser', 'Cashier' => 'Nail technician', 'Assistant' => 'Assistant'],
                             $employees->employee_role,
                             ['id' => 'employee_role', 'class' => 'form-control'],
                         ) !!}

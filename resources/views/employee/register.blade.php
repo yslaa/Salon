@@ -45,9 +45,9 @@
                                 @if ($errors->has('employee_role'))
                                     <small>{{ $errors->first('employee_role') }}</small>>
                                 @endif
-                                <option value="Veterinarian">Veterinarian</option>
-                                <option value="Groomer">Groomer</option>
-                                <option value="Assistant">Assistant</option>
+                                <option value="Hairdresser">Hairdresser</option>
+                                <option value="Cashier">Cashier</option>
+                                <option value="Nail Tech">Nail Tech</option>
                             </select>
                         </div>
                     </div>
