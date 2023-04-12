@@ -20,6 +20,7 @@ Route::redirect('/', 'login');
 
 // Route::get('products', ProductModelController::class, 'index');
 Route::get('/product', ['uses' => 'ProductModelController@index','as' => 'product.index']);
+Route::get('/product/create', ['uses' => 'ProductModelController@create','as' => 'product.create']);
 
 Route::group(['middleware' => 'auth'], function() {
   Route::get('logout',['uses' => 'LoginController@logout','as' => 'user.logout']);

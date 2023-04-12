@@ -27,7 +27,8 @@ class ProductModelController extends Controller
      */
     public function create()
     {
-        //
+        $products = ProductModel::all();
+        return View::make("product.create" , ["products" => $products]);
     }
 
     /**
