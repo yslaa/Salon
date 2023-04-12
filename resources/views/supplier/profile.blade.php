@@ -117,8 +117,7 @@
         <div class="mgb-40 padb-30 auto-invert line-b-4 align-center">
             <h1 class="font-cond-l fg-accent lts-md mgb-10" contenteditable="false">𝐒𝐮𝐩𝐩𝐥𝐢𝐞𝐫 𝐏𝐫𝐨𝐟𝐢𝐥𝐞</h1>
             <h1 class="font-cond-b fg-text-d lts-md fs-300 fs-300-xs no-mg" contenteditable="false">
-                𝒲𝑒𝓁𝒸𝑜𝓂𝑒 𝓉𝑜 𝒫𝑒𝓉
-                𝒞𝒶𝓇𝑒,
+                Welcome to Serenity Salon
                 <i style="color:rgb(151, 81, 66)"> {{ $supplier->name }}</i>
 
         </div>
@@ -130,16 +129,15 @@
                     <img class="img" src="{{ asset('images/supplier/' . $supplier->images) }}" alt="I am A Pic"
                         alt="supplier Profile" width="200" height="200">
                     <br>
-                    <h5>═════════════════════════════════════════</h5>
-                    <span id="spam">𝐈𝐃: <i style="color:rgb(151, 81, 66)"> {{ $supplier->id }}</i></span>
+                                        <span id="spam">ID: <i style="color:rgb(151, 81, 66)"> {{ $supplier->id }}</i></span>
                     <br>
 
-                    <span class="fs-110 font-cond-l " contenteditable="false">𝐑𝐨𝐥𝐞: <i
+                    <span class="fs-110 font-cond-l " contenteditable="false">Role: <i
                             style="color:rgb(151, 81, 66)">{{ $supplier->role }}</i>
                     </span>
 
                     <br>
-                    <span id="spam">𝐔𝐬𝐞𝐫 𝐈𝐃: <i
+                    <span id="spam">User ID: <i
                             style="color:rgb(151, 81, 66)">{{ $supplier->user_id }}</i></span>
                     <br>
 
