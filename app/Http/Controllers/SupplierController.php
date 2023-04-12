@@ -43,7 +43,7 @@ class SupplierController extends Controller
             Alert::image(
                 "Congratulations!",
                 session(key: "success_message"),
-                "https://media0.giphy.com/media/1YcLOSW6JCNdsfSr5E/giphy.gif?cid=790b76115cd3d732681c09d4b2ea920e8c940bcfdb2711a6&rid=giphy.gif&ct=s",
+                "https://media3.giphy.com/media/WUrj2q5E7llqOvXTa4/giphy.gif",
                 "200",
                 "200",
                 "I Am A Pic"

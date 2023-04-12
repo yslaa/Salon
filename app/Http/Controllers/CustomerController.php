@@ -43,7 +43,7 @@ class CustomerController extends Controller
             Alert::image(
                 "Congratulations!",
                 session(key: "success_message"),
-                "http://pa1.narvii.com/6344/669ea02234466a5f0290595f63c038473c825c86_00.gif",
+                "https://i.pinimg.com/originals/59/c2/82/59c2820a57734d7fb2780dd47eed6f23.gif",
                 "200",
                 "200",
                 "I Am A Pic"

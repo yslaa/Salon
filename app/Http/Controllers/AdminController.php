@@ -45,7 +45,7 @@ class AdminController extends Controller
             Alert::image(
                 "Congratulations!",
                 session(key: "success_message"),
-                "https://freight.cargo.site/w/367/i/658c2312424eedf51104e7dbaa820d5f5e5c0e0e63422fbffd2378026cc5bcd3/doge.gif",
+                "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjc2NTBmNjk5M2RlNjdjZTg2MzYzMjEwNTkzNTcwNjc3MTk5NjNhMCZjdD1z/gip7vQSzEepGIoCz4K/giphy.gif",
                 "200",
                 "200",
                 "I Am A Pic"

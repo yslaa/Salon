@@ -44,7 +44,7 @@ class EmployeeController extends Controller
             Alert::image(
                 "Congratulations!",
                 session(key: "success_message"),
-                "https://media3.giphy.com/media/tKys00Ye9maGtn9pcq/giphy.gif?cid=ecf05e47knblbh9ucuhl5m1gjveld8lk5g6rt9skhd9ok636&rid=giphy.gif&ct=s",
+                "https://cdn.dribbble.com/users/2560959/screenshots/5827235/media/fe898ba977bd59591c82bb20da8eeff5.gif",
                 "200",
                 "200",
                 "I Am A Pic"
