@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" style="height: 7rem; padding-top: .5rem; font-size: 2rem; background-color:#ffb881;">
+<nav class="navbar navbar-default; h-14 bg-gradient-to-r from-purple-500 to-pink-500" style="height: 7rem; padding-top: .5rem; font-size: 2rem;">
   <div
       style="display: grid; grid-template-columns: .1fr 1fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
 
