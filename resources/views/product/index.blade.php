@@ -1,9 +1,9 @@
-@extends('layouts.customermaster')
+@extends('layouts.productmaster')
 @section('content')
     <p>
         <a href="{{ route('product.create') }}">
             <p class="text-center text-red-700 text-lg bg-purple-500 p-2 mx-3">
-                Add Product &rarr;
+                Add Product
             </p>
         </a>
     </p>
