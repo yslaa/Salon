@@ -11,49 +11,56 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\AdminModel;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\DataTables\AdminDataTable;
 
 class AdminController extends Controller
 {
+
+    public function index(AdminDataTable $dataTable)
+    {
+        return $dataTable->render('admin.index');
+    }
+
      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
-    {
-        $admins = User::join(
-            "admins",
-            "users.id",
-            "=",
-            "admins.user_id"
-            )
-            ->select(
-                "users.id",
-                "users.name",
-                "users.images",
-                "users.role",
-                "users.deleted_at",
-                "admins.user_id",
-            )
-            ->where('users.id', '<>', Auth::user()->id)
-            ->orderBy("admins.user_id", "DESC")
-            ->withTrashed()
-            ->get();
+    // public function index()
+    // {
+    //     $admins = User::join(
+    //         "admins",
+    //         "users.id",
+    //         "=",
+    //         "admins.user_id"
+    //         )
+    //         ->select(
+    //             "users.id",
+    //             "users.name",
+    //             "users.images",
+    //             "users.role",
+    //             "users.deleted_at",
+    //             "admins.user_id",
+    //         )
+    //         ->where('users.id', '<>', Auth::user()->id)
+    //         ->orderBy("admins.user_id", "DESC")
+    //         ->withTrashed()
+    //         ->get();
 
-        if (session(key: "success_message")) {
-            Alert::image(
-                "Congratulations!",
-                session(key: "success_message"),
-                "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjc2NTBmNjk5M2RlNjdjZTg2MzYzMjEwNTkzNTcwNjc3MTk5NjNhMCZjdD1z/gip7vQSzEepGIoCz4K/giphy.gif",
-                "200",
-                "200",
-                "I Am A Pic"
-            );
-        }
+    //     if (session(key: "success_message")) {
+    //         Alert::image(
+    //             "Congratulations!",
+    //             session(key: "success_message"),
+    //             "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjc2NTBmNjk5M2RlNjdjZTg2MzYzMjEwNTkzNTcwNjc3MTk5NjNhMCZjdD1z/gip7vQSzEepGIoCz4K/giphy.gif",
+    //             "200",
+    //             "200",
+    //             "I Am A Pic"
+    //         );
+    //     }
 
-        return view("admin.index", ["admins" => $admins]);
-    }
+    //     return view("admin.index", ["admins" => $admins]);
+    // }
 
     /**
      * Display a listing of the resource.
