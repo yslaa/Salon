@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
 
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('') }}">
+                    <a href="{{ route('product.index') }}">
                         <i class="fa fa-product-hunt" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Products
                     </a>
                 </li>

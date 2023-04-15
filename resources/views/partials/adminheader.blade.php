@@ -2,8 +2,6 @@
     <div
         style="display: grid; grid-template-columns: .1fr 1fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
 
-      
-
         <div class="navbar-header" style="display: grid; justify-self: start;">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                 data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -24,6 +22,12 @@
                     <a href="{{ url('/transactions') }}">
                         <i class="fa fa-cart-arrow-down" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                         Transaction
+                    </a>
+                </li>
+
+                <li style="padding: 0 1rem;">
+                    <a href="{{ url('/product') }}">
+                        <i class="fa fa-product-hunt" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Stock
                     </a>
                 </li>
 

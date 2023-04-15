@@ -11,9 +11,9 @@
     @vite('resources/js/app.js')
 </head>
 
-<body>
+<body style="background-image: url(/navbar/background-salon.jpg); background-repeat: no-repeat; background-size:cover; overflow:hidden;">
     @include('sweetalert::alert')
-    @include('partials.customerheader')
+    @include('partials.productheader')
     <div>
         @yield('content')
     </div>

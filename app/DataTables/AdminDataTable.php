@@ -21,25 +21,29 @@ class AdminDataTable extends DataTable
      */
     public function dataTable($query)
     {
+
         return datatables()
-            ->eloquent($query)
-             ->addColumn('action', function($row) {
-                    return "<a href=". route('admin.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
-                    <form action=". route('admin.destroy', $row->id). " method= \"POST\" >". csrf_field().
-                    '<input name="_method" type="hidden" value="DELETE">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                      </form>';
+            ->collection($query)
+            ->addColumn('action', function($row) {
+                    // return "<a href=". route('admin.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
+                    // <form action=". route('admin.destroy', $row->id). " method= \"POST\" >". csrf_field().
+                    // '<input name="_method" type="hidden" value="DELETE">
+                    // <button class="btn btn-danger" type="submit">Delete</button>
+                    //   </form>';
+                    $actionButton = '<a href="' . route('admin.edit', $row->id) . '"  class="btn details btn-primary">Edit</a>';
+                    return $actionButton;
             })
-            ->addColumn('images', function ($admins) { 
-                        $images = explode('|',$admins->img_path);
-                        $image_name = is_array($images);
-                        $number = rand(0,3);
-                        for ($i = $number; $i <= $image_name; $i++)
-                        {
-                            return '<img src=' . $images[$i] .' alt = "I am a Pic" height="100" width="100">';
-                        }
-            })
-            ->rawColumns(['action', 'images']);
+            // ->addColumn('images', function ($admins) { 
+            //     $image = explode('|',$admins->images);
+            //     $image_name = is_array($image);
+            //     $number = rand(0,3);
+            //     for ($i = $number; $i <= $image_name; $i++)
+            //     {
+            //         $images = '<img src=' . $image[$i] .' alt = "I am a Pic" height="100" width="100">';
+            //         return $images;
+            //     }
+            // })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -50,24 +54,13 @@ class AdminDataTable extends DataTable
      */
     public function query()
     {
-            $admins = User::join(
-            "admins",
-            "users.id",
-            "=",
-            "admins.user_id"
-            )
+            $admins = DB::table('admins as a')->join('users as u','u.id', '=', 'a.user_id')
             ->select(
-                "users.id",
-                "users.name",
-                "users.images",
-                "users.role",
-                "users.deleted_at",
-                "admins.user_id",
+                'a.id','u.name','u.images','u.deleted_at',
             )
-            // ->where('users.id', '<>', Auth::user()->id)
-            // ->orderBy("admins.user_id", "DESC")
-            // ->withTrashed()
+            ->groupBy('a.id','u.name','u.images','u.role','u.deleted_at')
             ->get();
+            
             return $admins;
     }
 
@@ -105,7 +98,6 @@ class AdminDataTable extends DataTable
             Column::make('id'),
             Column::make('name')->title('adminName'),
             Column::make('email'),
-            Column::make('role'),
             Column::make('images'),
             Column::make('created_at'),
             Column::make('updated_at'),
@@ -121,7 +113,7 @@ class AdminDataTable extends DataTable
      * @return string
      */
 
-    public function filename(): string
+    public function filename(): String
     {
         return 'Admins_' . date('YmdHis');
     }

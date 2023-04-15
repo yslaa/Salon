@@ -21,6 +21,10 @@ Route::redirect('/', 'login');
 // Route::get('products', ProductModelController::class, 'index');
 Route::get('/product', ['uses' => 'ProductModelController@index','as' => 'product.index']);
 Route::get('/product/create', ['uses' => 'ProductModelController@create','as' => 'product.create']);
+Route::get('/product/{id}/edit', [ProductModelController::class, 'edit'])->name('product.edit');
+Route::post('/product/{id}', [ProductModelController::class, 'update'])->name('product.update');
+Route::delete('/product/{id}', [ProductModelController::class, 'destroy'])->name('product.destroy');
+Route::post('/product', [ProductModelController::class, 'store'])->name('product.store');
 
 Route::group(['middleware' => 'auth'], function() {
   Route::get('logout',['uses' => 'LoginController@logout','as' => 'user.logout']);
@@ -50,7 +54,7 @@ Route::group(['middleware' => 'role:admin'], function() {
   Route::get('/adminProfile', ['uses' => 'AdminController@getAdminProfile','as' => 'admin.profile']);
   Route::get('/admin/profile/edit/{id}', ['uses' => 'AdminController@profileEdit','as' => 'admin.profileEdit']);
   Route::post('/admin/profile/edit/{id}', ['uses' => 'AdminController@profileUpdate','as' => 'admin.profileUpdate']); 
-  Route::get('/admin', 'AdminController@index');
+  Route::get('/admin', ['uses' => 'AdminController@index','as' => 'admin.index']);
   Route::get('admin/{id}', ['uses' => 'AdminController@show','as' => 'admin.show']);
   Route::get('/admin/{id}/edit', ['uses' =>'AdminController@edit','as' => 'admin.edit']);
   Route::post('/admin/{id}/update',['uses' =>'AdminController@update','as' => 'admin.update']);

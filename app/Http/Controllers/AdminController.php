@@ -18,6 +18,7 @@ class AdminController extends Controller
 
     public function index(AdminDataTable $dataTable)
     {
+        // dd($dataTable);
         return $dataTable->render('admin.index');
     }
 
@@ -43,7 +44,7 @@ class AdminController extends Controller
     //             "users.deleted_at",
     //             "admins.user_id",
     //         )
-    //         ->where('users.id', '<>', Auth::user()->id)
+    //         ->where('users.id', '<>', Auth::user()->id)  
     //         ->orderBy("admins.user_id", "DESC")
     //         ->withTrashed()
     //         ->get();

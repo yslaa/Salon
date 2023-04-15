@@ -1,4 +1,4 @@
-@extends('layouts.suppliermaster')
+@extends('layouts.productmaster')
 
 @section('title')
     Supplier Profile Edit

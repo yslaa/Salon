@@ -15,10 +15,10 @@ class LoginController extends Controller
         $this->validate($request, [
         'email' => 'email|required',
         'password' => 'required|min:4',
-        'g-recaptcha-response' => 'required|captcha',
+        // 'g-recaptcha-response' => 'required|captcha',
         ], [
-        'g-recaptcha-response.required' => 'Please complete the reCAPTCHA to verify that you are not a robot.',
-        'g-recaptcha-response.captcha' => 'The reCAPTCHA response was incorrect. Please try again.',
+        // 'g-recaptcha-response.required' => 'Please complete the reCAPTCHA to verify that you are not a robot.',
+        // 'g-recaptcha-response.captcha' => 'The reCAPTCHA response was incorrect. Please try again.',
         'email.required' => 'Please enter your email address.',
         'email.email' => 'Please enter a valid email address.',
         'password.required' => 'Please enter your password.',

@@ -16,6 +16,153 @@
       </div>
 
       <div>
+        @if(Auth::check() && Auth::user()->role === 'supplier')
+        <div>
+            <ul class="nav navbar-nav">
+
+                <li style="padding: 0 1rem;">
+                    <a href="{{ route('product.index') }}">
+                        <i class="fa fa-product-hunt" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Products
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false"> <i class="fa fa-id-card" style="padding: 0 .5rem 0 0;"
+                            aria-hidden="true"></i> Data <span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="font-size: 1.75rem;">
+
+                        <div>
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="{{ url('/supplierProfile') }}">
+                                        Profile
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ url('/supplier/profile/edit/{id}') }}">
+                                        Update Profile
+                                    </a>
+                                </li>
+                            </ul>
+                </li>
+            </ul>
+        </div>
+        @elseif (Auth::check() && Auth::user()->role === 'admin')
+            <div>
+                <ul class="nav navbar-nav">
+
+                    <li style="padding: 0 1rem;">
+                        <a href="{{ url('/transactions') }}">
+                            <i class="fa fa-cart-arrow-down" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
+                            Transaction
+                        </a>
+                    </li>
+
+                    <li style="padding: 0 1rem;">
+                        <a href="{{ url('/product') }}">
+                            <i class="fa fa-product-hunt" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Stock
+                        </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            aria-expanded="false"><span style="font-size: 3rem;">&#128480;</span> Charts <span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu" style="font-size: 1.75rem;">
+                            <div>
+                                <ul class="nav navbar-nav">
+                                    <li style="padding: 0 1rem;">
+                                        <a href="{{ url('/dashboard/userRole') }}">
+                                            All User Chart
+                                        </a>
+                                    </li>
+                            </div>
+                        </ul>
+                    </li>
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            aria-expanded="false"> <i class="fa fa-archive" style="padding: 0 .5rem 0 0;"
+                                aria-hidden="true"></i> Tables <span class="caret"></span></a>
+                        <ul class="dropdown-menu" style="font-size: 1.75rem;">
+
+                            <div>
+                                <ul class="nav navbar-nav">
+
+
+                                    <li style="padding: 0 1rem;">
+                                        <a href="{{ url('/admin') }}">
+                                            Admins
+                                        </a>
+                                    </li>
+
+                                    <li style="padding: 0 1rem;">
+                                        <a href="{{ url('/customer') }}">
+                                            Customers
+                                        </a>
+                                    </li>
+
+                                    <li style="padding: 0 1rem;">
+                                        <a href="{{ url('/employee') }}">
+                                            Employees
+                                        </a>
+                                    </li>
+
+                                    <li style="padding: 0 1rem;">
+                                        <a href="{{ url('/supplier') }}">
+                                            Suppliers
+                                        </a>
+                                    </li>
+                                </ul>
+                    </li>
+                </ul>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false"> <i class="fa fa-id-card" style="padding: 0 .5rem 0 0;"
+                            aria-hidden="true"></i> Data <span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="font-size: 1.75rem;">
+
+                        <div>
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="{{ url('/adminProfile') }}">
+                                        Profile
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ url('/admin/profile/edit/{id}') }}">
+                                        Update Profile
+                                    </a>
+                                </li>
+                            </ul>
+                </li>
+
+                </ul>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false"> <i class="fa fa-search" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
+                        Search <span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="font-size: 1.75rem;">
+
+                        <div>
+                            <ul class="nav navbar-nav">
+                                <li style="padding: 0 1rem;">
+                                    <a href="{{ url('/user/search') }}">
+                                        Search Users
+                                    </a>
+                                </li>
+                            </ul>
+                </li>
+            </div>
+        </div>
+        @endif
+
       </div>
 
       <div id="bs-example-navbar-collapse-1">
