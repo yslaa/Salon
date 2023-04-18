@@ -18,7 +18,6 @@ class AdminController extends Controller
 
     public function index(AdminDataTable $dataTable)
     {
-        // dd($dataTable);
         return $dataTable->render('admin.index');
     }
 
@@ -111,19 +110,24 @@ class AdminController extends Controller
             'password.min' => 'Your password must be at least 4 characters long.',
         ]);
 
-        $user = new User();
-                $user->name = $request->input("name");
-                $user->email = $request->input("email");
-                $user->password = bcrypt($request->input('password'));
-                $user->role = 'admin';
+$user = new User();
+$user->name = $request->input("name");
+$user->email = $request->input("email");
+$user->password = bcrypt($request->input('password'));
+$user->role = 'admin';
 
-            if ($request->hasfile("images")) {
-                $file = $request->file("images");
-                $filename =  $file->getClientOriginalName();
-                $file->move("images/admin/", $filename);
-                $user->images = $filename;
-            }
-                $user->save();
+$images = array();
+if ($files = $request->file('images')) {
+    foreach ($files as $file) {
+        $name = $file->getClientOriginalName();
+        $destinationPath = public_path().'/images/admin';
+        $file->move($destinationPath, $name);
+        $images[] = 'images/admin/'.$name;
+    }
+}
+
+$user->images = implode('|', $images);
+$user->save();
 
         $admin = new AdminModel();
                 $admin->user_id = $user->id;
@@ -186,20 +190,23 @@ class AdminController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $admins = User::find($id);
-        $admins->name = $request->input("name");
-        $admins->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = "images/admin/" . $admins->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/admin/", $filename);
-            $admins->images = $filename;
-        }
-        $admins->update();
+$admins = User::find($id);
+$admins->name = $request->input("name");
+$admins->email = $request->input("email");
+
+$images = [];
+if ($request->hasFile('images')) {
+    foreach ($request->file('images') as $file) {
+        $name = $file->getClientOriginalName();
+        $destinationPath = public_path().'/images/admin';
+        $file->move($destinationPath, $name);
+        $images[] = 'images/admin/'.$name;
+    }
+    $admins->images = implode('|', $images);
+}
+
+$admins->update();
+
         return Redirect::to("/admin")->withSuccessMessage("Admin Updated!");
     }
 
