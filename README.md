@@ -4,7 +4,7 @@
 
 # HOW TO SETUP THIS PROJECT
 
--   `Run composer install`
+-   `Run composer install and npm i`
 -   `Copy the env example and make your own env`
 -   `Create the environment and fill it with the needed data, such as the database and mailtrap, for example`
 -   `Run php artisan key:generate`
@@ -14,6 +14,7 @@
 -   `To execute the project accurately, always use php artisan optimize or php artisan optimize:clear and run php artisan serve after`
 -   `To ensure that your routes are functioning properly, run php artisan route:list`
 -   `The default Password for every user is 12345678`
+
 
 #### If You Encouter Captcha Error Watch From This [Link](https://www.youtube.com/watch?v=f5jQqWvw44U)
 
