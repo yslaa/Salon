@@ -1,17 +1,16 @@
 @extends('layouts.adminmaster')
-@if(Auth::check() && Auth::user()->role === 'admin')
-    @section('content')
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h1>Administrators</h1>
-            <hr>
-            {{$dataTable->table()}}
-            {{$dataTable->scripts()}}
+
+@section('content')
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Manage Admins</div>
+            <div class="card-body">
+                {{ $dataTable->table(['class' => 'table table-bordered table-striped table-hover '], true) }}
+            </div>
         </div>
     </div>
-    @endsection
-@else
-    @section('content')
-    <h1>Page Restricted</h1>
-    @endsection
-    @endif
+@endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush
