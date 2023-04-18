@@ -2,66 +2,66 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use DB;
 
 class AdminDataTable extends DataTable
 {
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @param QueryBuilder $query Results from query() method.
+     * @return \Yajra\DataTables\EloquentDataTable
      */
-    public function dataTable($query)
+    public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-
-        return datatables()
-            ->collection($query)
-            ->addColumn('action', function($row) {
-                    // return "<a href=". route('admin.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
-                    // <form action=". route('admin.destroy', $row->id). " method= \"POST\" >". csrf_field().
-                    // '<input name="_method" type="hidden" value="DELETE">
-                    // <button class="btn btn-danger" type="submit">Delete</button>
-                    //   </form>';
-                    $actionButton = '<a href="' . route('admin.edit', $row->id) . '"  class="btn details btn-primary">Edit</a>';
-                    return $actionButton;
+        return (new EloquentDataTable($query))->setRowId('id')
+->addColumn('images', function ($admin) {
+    $images = explode('|', $admin->images);
+    $html = '';
+    foreach ($images as $image) {
+        $html .= '<img src="' . asset($image) . '" alt="I am a Pic" height="100" width="100">';
+    }
+    return $html;
+})
+            ->addColumn('action', function($admin) {
+                $editUrl = route('admin.edit', $admin->id);
+                $deleteUrl = route('admin.destroy', $admin->id);
+                $csrf = csrf_field();
+                $method = method_field('DELETE');
+                $buttons = <<<EOT
+                    <a href="$editUrl" class="btn btn-warning">Edit</a>
+                    <form action="$deleteUrl" method="POST">
+                        $csrf
+                        $method
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                EOT;
+                return $buttons;
             })
-            // ->addColumn('images', function ($admins) { 
-            //     $image = explode('|',$admins->images);
-            //     $image_name = is_array($image);
-            //     $number = rand(0,3);
-            //     for ($i = $number; $i <= $image_name; $i++)
-            //     {
-            //         $images = '<img src=' . $image[$i] .' alt = "I am a Pic" height="100" width="100">';
-            //         return $images;
-            //     }
-            // })
-            ->rawColumns(['action']);
+            ->rawColumns(['images', 'action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\AdminDataTable $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param AdminModel $model
+     * @return QueryBuilder
      */
-    public function query()
+    public function query(AdminModel $model): QueryBuilder
     {
-            $admins = DB::table('admins as a')->join('users as u','u.id', '=', 'a.user_id')
-            ->select(
-                'a.id','u.name','u.images','u.deleted_at',
-            )
-            ->groupBy('a.id','u.name','u.images','u.role','u.deleted_at')
-            ->get();
-            
-            return $admins;
+        return $model->newQuery()
+            ->join('users', 'admins.user_id', '=', 'users.id')
+            ->select('admins.id', 'users.name','users.email', 'users.images')
+            ->groupBy('admins.id', 'users.name', 'users.email','users.images');
     }
 
     /**
@@ -69,38 +69,37 @@ class AdminDataTable extends DataTable
      *
      * @return \Yajra\DataTables\Html\Builder
      */
-    public function html()
+    public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('admins-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            );
+                    ->setTableId('admin-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    //->dom('Bfrtip')
+                    ->orderBy(1)
+                    ->selectStyleSingle();
+                    // ->buttons([
+                    //     Button::make('excel'),
+                    //     Button::make('csv'),
+                    //     Button::make('pdf'),
+                    //     Button::make('print'),
+                    //     Button::make('reset'),
+                    //     Button::make('reload')
+                    // ]);
     }
 
     /**
-     * Get columns.
+     * Get the dataTable columns definition.
      *
      * @return array
      */
-    protected function getColumns()
+    public function getColumns(): array
     {
         return [
-
             Column::make('id'),
             Column::make('name')->title('adminName'),
             Column::make('email'),
             Column::make('images'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
             Column::make('action')
                 ->exportable(false)
                 ->printable(false),
@@ -112,9 +111,8 @@ class AdminDataTable extends DataTable
      *
      * @return string
      */
-
-    public function filename(): String
+    protected function filename(): string
     {
-        return 'Admins_' . date('YmdHis');
+        return 'Admin_' . date('YmdHis');
     }
 }
