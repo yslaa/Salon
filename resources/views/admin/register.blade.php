@@ -40,7 +40,7 @@
 
                     <div class="form-group">
                         <label for="images" class="control-label">Admin Profile:</label><i style="color:red"></i>
-                        <input type="file" class="form-control" id="images" name="images">
+                        <input type="file" class="form-control" id="images" name="images[]" multiple>
                         @error('images')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
