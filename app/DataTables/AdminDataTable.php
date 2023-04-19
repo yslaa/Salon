@@ -21,34 +21,58 @@ class AdminDataTable extends DataTable
      * @param QueryBuilder $query Results from query() method.
      * @return \Yajra\DataTables\EloquentDataTable
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
-    {
-        return (new EloquentDataTable($query))->setRowId('id')
-->addColumn('images', function ($admin) {
-    $images = explode('|', $admin->images);
-    $html = '';
-    foreach ($images as $image) {
-        $html .= '<img src="' . asset($image) . '" alt="I am a Pic" height="100" width="100">';
-    }
-    return $html;
-})
-            ->addColumn('action', function($admin) {
-                $editUrl = route('admin.edit', $admin->id);
-                $deleteUrl = route('admin.destroy', $admin->id);
-                $csrf = csrf_field();
-                $method = method_field('DELETE');
-                $buttons = <<<EOT
-                    <a href="$editUrl" class="btn btn-warning">Edit</a>
-                    <form action="$deleteUrl" method="POST">
-                        $csrf
-                        $method
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
-                EOT;
-                return $buttons;
-            })
-            ->rawColumns(['images', 'action']);
-    }
+public function dataTable(QueryBuilder $query): EloquentDataTable
+{
+    return (new EloquentDataTable($query))->setRowId('id')
+        ->addColumn('images', function ($admin) {
+            $images = explode('|', $admin->images);
+            $html = '';
+            foreach ($images as $image) {
+                $html .= '<img src="' . asset($image) . '" alt="I am a Pic" height="100" width="100">';
+            }
+            return $html;
+        })
+        ->addColumn('action', function($admin) {
+            $editUrl = route('admin.edit', $admin->id);
+            $csrf = csrf_field();
+
+// Check if the user has been soft-deleted
+if ($admin->deleted_at) {
+    $restoreUrl = route('admin.restore', $admin->id);
+    $restoreButton = '<a href="'.$restoreUrl.'" class="btn btn-success">Restore</a>';
+
+    $forceDeleteUrl = route('admin.forceDelete', $admin->id);
+    $method = method_field('GET');
+    $forceDeleteButton = '<button class="btn btn-warning" type="submit">Destroy</button>';
+
+    $csrf = csrf_field();
+    $buttons = <<<EOT
+        $restoreButton
+        <form action="$forceDeleteUrl" method="POST">
+            $csrf
+            $method
+            $forceDeleteButton
+        </form>
+    EOT;
+} else {
+    $deleteUrl = route('admin.destroy', $admin->id);
+    $method = method_field('DELETE');
+    $deleteButton = '<button class="btn btn-danger" type="submit">Delete</button>';
+    $buttons = <<<EOT
+        <a href="$editUrl" class="btn btn-warning">Edit</a>
+        <form action="$deleteUrl" method="POST">
+            $csrf
+            $method
+            $deleteButton
+        </form>
+    EOT;
+}
+
+
+            return $buttons;
+        })
+        ->rawColumns(['images', 'action']);
+}
 
     /**
      * Get query source of dataTable.
@@ -56,13 +80,17 @@ class AdminDataTable extends DataTable
      * @param AdminModel $model
      * @return QueryBuilder
      */
-    public function query(AdminModel $model): QueryBuilder
-    {
-        return $model->newQuery()
-            ->join('users', 'admins.user_id', '=', 'users.id')
-            ->select('admins.id', 'users.name','users.email', 'users.images')
-            ->groupBy('admins.id', 'users.name', 'users.email','users.images');
-    }
+public function query(AdminModel $model): QueryBuilder
+{
+    $loggedInUserId = auth()->user()->id;
+
+    return $model->newQuery()
+        ->join('users', 'admins.user_id', '=', 'users.id')
+        ->select('admins.id', 'users.name','users.email', 'users.images','users.deleted_at')
+        ->where('users.id', '<>', $loggedInUserId)
+        ->groupBy('admins.id', 'users.name', 'users.email','users.images','users.deleted_at');
+}
+
 
     /**
      * Optional method if you want to use html builder.
