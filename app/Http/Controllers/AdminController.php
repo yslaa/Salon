@@ -243,7 +243,7 @@ $admins->update();
         $user->name = $request->input("name");
         $user->email = $request->input("email");
         if ($request->hasfile("images")) {
-            $destination = "images/admin/" . $user->images;
+            $destination = $user->images;
             if (File::exists($destination)) {
                 File::delete($destination);
             }
@@ -275,15 +275,16 @@ $admins->update();
             ->restore();
         return Redirect::to("/admin")->withSuccessMessage("Admin Restored!");
     }
-
-    public function forceDelete($id)
-    {
-        $admins = User::findOrFail($id);
-        $destination = "uploads/admins/" . $admins->images;
+public function forceDelete($id)
+{
+    $admin = User::onlyTrashed()->findOrFail($id);
+        $destination = $admin->images;
         if (File::exists($destination)) {
             File::delete($destination);
         }
-        $admins->forceDelete();
-        return Redirect::to("/admin")->withSuccessMessage("Admin Permanently Deleted!");
-    }
+    $admin->forceDelete();
+
+    return redirect()->route('admin.index')->withSuccessMessage('Admin permanently deleted.');
+}
+
 }
