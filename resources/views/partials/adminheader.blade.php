@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default; h-14 bg-gradient-to-r from-purple-500 to-pink-500" style="height: 7rem; padding-top: .5rem; font-size: 2rem;">
+<nav class="navbar navbar-default; h-14 bg-gradient-to-r from-purple-500 to-pink-500"
+    style="height: 7rem; padding-top: .5rem; font-size: 2rem;">
     <div
         style="display: grid; grid-template-columns: .1fr 1fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
 
@@ -131,8 +132,8 @@
         <ul class="nav navbar-nav navbar-right">
             @if (Auth::check())
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                        aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i>
                         {{ Auth::user()->role }}
                         <span class="caret"></span></a>
                 @else
