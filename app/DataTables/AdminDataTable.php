@@ -36,7 +36,6 @@ public function dataTable(QueryBuilder $query): EloquentDataTable
             $editUrl = route('admin.edit', $admin->id);
             $csrf = csrf_field();
 
-// Check if the user has been soft-deleted
 if ($admin->deleted_at) {
     $restoreUrl = route('admin.restore', $admin->id);
     $restoreButton = '<a href="'.$restoreUrl.'" class="btn btn-success">Restore</a>';

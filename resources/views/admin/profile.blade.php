@@ -125,8 +125,11 @@
             <ul class="hash-list cols-4 cols-2-xs pad-30-all align-center text-sm">
                 <li>
                     <p>Admin Image</p>
-                    <img class="img" src="{{ asset('images/admin/' . $admin->images) }}" alt="I am A Pic"
-                        alt="admin Profile" width="200" height="200">
+                    @if ($admin->images)
+                        @foreach (explode('|', $admin->images) as $image)
+                            <img src="{{ asset($image) }}" alt="I am A Pic" width="100" height="100" class="ml-24 py-2">
+                        @endforeach
+                    @endif
                     <br>
                     <span id="spam">ID: <i style="color:rgb(151, 81, 66)"> {{ $admin->id }}</i></span>
                     <br>
