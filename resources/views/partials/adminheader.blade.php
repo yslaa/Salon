@@ -1,7 +1,48 @@
-<nav class="navbar navbar-default; h-14 bg-gradient-to-r from-purple-500 to-pink-500"
-    style="height: 7rem; padding-top: .5rem; font-size: 2rem;">
-    <div
-        style="display: grid; grid-template-columns: .1fr 1fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
+<div class="navbar bg-secondary" style="display: flex; justify-content: center; z-index:100;">
+    <div class="flex-1">
+        <a href="{{ url('/adminProfile') }}">
+            <img src="/navbar/salon.png" alt="salon" style="width: 7.5rem">
+        </a>
+    </div>
+    <div class="flex-none" style="margin-right:2.5rem;">
+        <ul class="menu menu-horizontal" style="text-align: center;">
+            <li><a href="{{ url('/transactions') }}">Transaction</a></li>
+            <li><a href="{{ url('/product') }}">Stock</a></li>
+            <li tabindex="0">
+                <a>
+                    Charts
+                    <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                    </svg>
+                </a>
+                <ul class="p-2 bg-base-100">
+                    <li> <a href="{{ url('/dashboard/userRole') }}">
+                            All User Chart
+                        </a></li>
+                </ul>
+            </li>
+            <li tabindex="0">
+                <a>
+                    Tables
+                    <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                    </svg>
+                </a>
+                <ul class="p-2 bg-base-100">
+                    <li> <a href="{{ url('/admin') }}">
+                            Admins
+                        </a></li>
+                    <li> <a href="{{ url('/customer') }}">
+                            Customers
+                        </a></li>
+                    <li> <a href="{{ url('/employee') }}">
+                            Employees
+                        </a></li>
+                    <li> <a href="{{ url('/supplier') }}">
+                            Suppliers
+                        </a></li>
 
         <div class="navbar-header" style="display: grid; justify-self: start;">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -103,13 +144,13 @@
                 @endif
                 <ul class="p-2 bg-base-100" >
                     @if (Auth::check())
+                    <li>
+                        <P>Welcome, {{ Auth::user()->name }}</P>
+                     </li>
                         <li>
                             <a href="{{ url('/admin/profile/edit/{id}') }}">
                                 Update Profile
                             </a>
-                        </li>
-                        <li>
-                           <P>Welcome, {{ Auth::user()->name }} </P> 
                         </li>
                         <li><a href="{{ route('user.logout') }}">Logout</a></li>
                     @else

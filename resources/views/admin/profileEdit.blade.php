@@ -40,11 +40,14 @@
                             @endif
                         </div>
 
-                        <div class="form-group">
+                        <div>
                             <label for="images" class="block text-lg pb-3">Admin Picture</label>
-                            {{ Form::file('images', null, ['class' => 'form-control', 'id' => 'images']) }}
-                            <img src="{{ asset('images/admin/' . $admins->images) }}" alt="I am A Pic" width="100"
-                                height="100" class="ml-24 py-2">
+                            {{ Form::file('images[]', ['multiple' => true], ['class' => 'block shadow-5xl p-2 my-2 w-full', 'id' => 'images']) }}
+                            @if ($admins->images)
+                            @foreach (explode('|', $admins->images) as $image)
+                                <img src="{{ asset($image) }}" alt="I am A Pic" width="100" height="100" class="ml-24 py-2">
+                            @endforeach
+                        @endif
                             @if ($errors->has('images'))
                                 <p class="text-center text-red-500">{{ $errors->first('images') }}</p>
                             @endif

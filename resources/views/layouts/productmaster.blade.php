@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
-
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        html,body{
+            height: 100%;
+        }
+    </style>
 <head>
     <meta charset="utf-8">
     <title>@yield('title')</title>

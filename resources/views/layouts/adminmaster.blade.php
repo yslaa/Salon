@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
-
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    html,body{
+        height: 100%;
+    }
+</style>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
@@ -19,7 +28,7 @@
  
     @include('sweetalert::alert')
     @include('partials.adminheader')
-    <main>
+    <main >
         @yield('content')
     </main>
 
