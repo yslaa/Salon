@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.bunny.net/css?family=Nunito");
-
-@import "variables";
-
-@import "bootstrap/scss/bootstrap";
 
 @import "bootstrap-icons/font/bootstrap-icons.css";
 @import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
