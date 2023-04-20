@@ -239,23 +239,23 @@ $admins->update();
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $user = User::find($id);
-        $user->name = $request->input("name");
-        $user->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = $user->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/admin/", $filename);
-            $user->images = $filename;
-        }
-        $user->update();
+$admins = User::find($id);
+$admins->name = $request->input("name");
+$admins->email = $request->input("email");
+
+$images = [];
+if ($request->hasFile('images')) {
+    foreach ($request->file('images') as $file) {
+        $name = $file->getClientOriginalName();
+        $destinationPath = public_path().'/images/admin';
+        $file->move($destinationPath, $name);
+        $images[] = 'images/admin/'.$name;
+    }
+    $admins->images = implode('|', $images);
+    $admins->update();
         return redirect()->route('admin.profile');
     }
-
+    }
     /**
      * Remove the specified resource from storage.
      *
