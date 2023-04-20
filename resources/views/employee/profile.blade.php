@@ -1,4 +1,4 @@
-@extends('layouts.employeemaster')
+@extends('layouts.servicemaster')
 
 @section('title')
     Employee Profile

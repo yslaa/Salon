@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceModel extends Model
 {
     use HasFactory;
+
+    protected $table = "services";
+
+    protected $fillable = ["employee_id, product_id"];
+
+    protected $primaryKey = "id";
+
+    protected $guarded = ["id"];
 }

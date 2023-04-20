@@ -16,15 +16,21 @@ use App\Http\Controllers\ProductModelController;
 
 Route::redirect('/', 'login');
 
-// Route::resource('products', ProductModelController::class);
-
-// Route::get('products', ProductModelController::class, 'index');
+#Products
 Route::get('/product', ['uses' => 'ProductModelController@index','as' => 'product.index']);
 Route::get('/product/create', ['uses' => 'ProductModelController@create','as' => 'product.create']);
 Route::get('/product/{id}/edit', [ProductModelController::class, 'edit'])->name('product.edit');
 Route::post('/product/{id}', [ProductModelController::class, 'update'])->name('product.update');
 Route::delete('/product/{id}', [ProductModelController::class, 'destroy'])->name('product.destroy');
 Route::post('/product', [ProductModelController::class, 'store'])->name('product.store');
+
+#Services
+Route::get('/service', ['uses' => 'ServiceModelController@index','as' => 'service.index']);
+Route::get('/service/create', ['uses' => 'ServiceModelController@create','as' => 'service.create']);
+Route::get('/service/{id}/edit', [ServiceModelController::class, 'edit'])->name('service.edit');
+Route::post('/service/{id}', [ServiceModelController::class, 'update'])->name('service.update');
+Route::delete('/service/{id}', [ServiceModelController::class, 'destroy'])->name('service.destroy');
+Route::post('/service', [ServiceModelController::class, 'store'])->name('service.store');
 
 Route::group(['middleware' => 'auth'], function() {
   Route::get('logout',['uses' => 'LoginController@logout','as' => 'user.logout']);

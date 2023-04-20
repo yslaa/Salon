@@ -270,4 +270,9 @@ class CustomerController extends Controller
         $customers->forceDelete();
         return Redirect::to("/customer")->withSuccessMessage("Customer Permanently Deleted!");
     }
+
+    // public function services(){
+        
+    // }
+
 }

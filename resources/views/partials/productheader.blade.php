@@ -66,6 +66,13 @@
                         </a>
                     </li>
 
+                    <li style="padding: 0 1rem;">
+                        <a href="{{ url('/service') }}">
+                            <i class="fa fa-handshake-o" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
+                            Services
+                        </a>
+                    </li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                             aria-expanded="false"><span style="font-size: 3rem;">&#128480;</span> Charts <span

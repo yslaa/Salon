@@ -17,6 +17,14 @@
 
         <div>
             <ul class="nav navbar-nav">
+
+                <li style="padding: 0 1rem;">
+                    <a href="{{ route ('service.index') }}">
+                        <i class="fa fa-handshake-o" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
+                        Services
+                    </a>
+                </li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false"> <i class="fa fa-id-card" style="padding: 0 .5rem 0 0;"
@@ -25,6 +33,12 @@
 
                         <div>
                             <ul class="nav navbar-nav">
+                                {{-- <li>
+                                    <a href="{{ url('/service') }}">
+                                        Service
+                                    </a>
+                                </li> --}}
+
                                 <li>
                                     <a href="{{ url('/employeeProfile') }}">
                                         Profile
