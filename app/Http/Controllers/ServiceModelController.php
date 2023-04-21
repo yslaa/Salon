@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ServiceModel;
+use App\Models\ServiceEmployee;
+use App\Models\EmployeeModel;
 use Illuminate\Http\Request;
+use Auth;
 use View;
+use DB;
 
 class ServiceModelController extends Controller
 {
@@ -28,7 +32,15 @@ class ServiceModelController extends Controller
     public function create()
     {
         $services = ServiceModel::all();
-        return View::make("service.create" , ["services" => $services]);
+        $employees = DB::table('employees as e')
+            ->join('users as u','u.id', '=', 'e.user_id')
+            ->where('u.role', '=', 'employee')
+            ->get(['u.name','e.id as emp_id']);
+        $products = DB::table('products as p')->get(['p.product','p.id as product_id']);
+
+        return View::make("service.create" , ["services" => $services, 
+                "employees" => $employees, 
+                'products' => $products]);
     }
 
     /**
@@ -41,20 +53,24 @@ class ServiceModelController extends Controller
     {
         $request->validate([
             'service'=>'required|max:50',
-            'cost'=>'required'
+            'cost'=>'required',
+            'employee'=>'required'
         ]);
 
-        $services = new ServiceModel;
-
-        $supp_id = DB::table('services as s')->join('users as u','u.id', '=', 's.user_id')->value('s.id');
-
-        $services->service = $request->service;
-        $services->cost = $request->cost;
-        $services->employee_id = $employee_id;
-        $services->employee_id = $employee_id;
-        dd($services);
-        $services->save();
-        return redirect()->route('service.index')->with('message', 'Product Added');
+        $serve_id = DB::table('services')->insertGetId([
+            'service' => $request->service,
+            'cost' => $request->cost,
+            'product_id' => $request->product,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        
+        DB::table('service_employee')->insert([
+            'service_id' => $serve_id,
+            'employee_id' => $request->employee,
+        ]);
+        
+        return redirect()->route('service.index')->with('message', 'Service Added');
     }
 
     /**
@@ -77,8 +93,12 @@ class ServiceModelController extends Controller
     public function edit($id) 
     {
         $services = ServiceModel::find($id);
-        // $supplier = Song::pluck('title','id');
-        return view('service.edit', compact('services'));
+        $products = DB::table('products as p')->get(['p.product','p.id as product_id']);
+        $employees = DB::table('employees as e')
+            ->join('users as u','u.id', '=', 'e.user_id')
+            ->where('u.role', '=', 'employee')
+            ->get(['u.name','e.id as emp_id']);
+        return view('service.edit', compact('services', 'products', 'employees'));
     }
 
     /**
@@ -90,8 +110,17 @@ class ServiceModelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $services = ServiceModel::find($id);
-        $supp_id = DB::table('suppliers as s')->join('users as u','u.id', '=', 's.user_id')->value('s.id');
+        $services = DB::table('services')->where('id', $id)->update([
+            'service' => $request->service,
+            'cost' => $request->cost,
+            'product_id' => $request->product,
+            'updated_at' => now()
+        ]);
+
+        $serve_emp = DB::table('service_employee')->where('service_id', $id)->update([
+            'employee_id' => $request->employee,
+        ]);
+
         // if($request->file()) {
         //     $fileName = time().'_'.$request->file('img_path')->getClientOriginalName();
            
@@ -102,15 +131,9 @@ class ServiceModelController extends Controller
         //         'public/images', $request->file('img_path'), $fileName
         //     );
         //     $artist->img_path = '/storage/images/' . $fileName;
-           
         // }
        
-        $services->service = $request->service;
-        $services->description = $request->description;
-        $services->quantity = $request->quantity;
-        $services->cost = $request->cost;
-        $services->supplier_id = $supp_id;
-        $services->save();
+
         return redirect()->route('service.index')->withSuccessMessage("Product Updated!");
     }
 

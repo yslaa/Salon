@@ -11,7 +11,7 @@ class ServiceModel extends Model
 
     protected $table = "services";
 
-    protected $fillable = ["employee_id, product_id"];
+    protected $fillable = ["product_id"];
 
     protected $primaryKey = "id";
 

@@ -12,8 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('services', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->increments("id");
+            $table->text("service");
+            $table->integer(column: "product_id")->unsigned();
+            $table
+            ->foreign("product_id")
+            ->references("id")
+            ->on("products")
+            ->onUpdate("cascade")
+            ->onDelete("cascade");
         });
     }
 
