@@ -1,38 +1,23 @@
-<nav class="navbar navbar-default; h-14 bg-gradient-to-r from-purple-500 to-pink-500" style="height: 7rem; padding-top: .5rem; font-size: 2rem;">
-    <div
-        style="display: grid; grid-template-columns: .1fr 1fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
+<div class="navbar bg-secondary">
+    <div class="flex-1">
+        <a href="{{ url('/') }}">
+            <img src="/navbar/salon.png" alt="salon" style="width: 7.5rem">
+        </a>
+    </div>
 
-        <div class="navbar-header" style="display: grid; justify-self: start;">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="{{ url('/') }}">
-                <img src="/navbar/salon.png" alt="salon" style="width: 7.5rem">
-            </a>
-        </div>
-
-        <div>
-        </div>
-
-        <div id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
+    <div class="flex-none" style="margin-right:5rem;">
+        <ul class="menu menu-horizontal px-1">  
                 @if (Auth::check())
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i>
+                        <a href="#" role="button"><i class="fa fa-user" aria-hidden="true"></i>
                             {{ Auth::user()->role }}
                             <span class="caret"></span></a>
                     @else
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i>
+                        <a href="#" role="button"><i class="fa fa-user" aria-hidden="true"></i>
                             Guest <span class="caret"></span></a>
                 @endif
-                <ul class="dropdown-menu" style="font-size: 1.75rem;">
+                <ul class="p-2 bg-base-100">
                     @if (Auth::check())
                         <li
                             style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
@@ -53,4 +38,4 @@
             </ul>
         </div>
     </div>
-</nav>
+
