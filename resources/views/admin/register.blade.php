@@ -38,14 +38,15 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group ">
                         <label for="images" class="control-label">Admin Profile:</label><i style="color:red"></i>
                         <input type="file" class="form-control" id="images" name="images[]" multiple>
                         @error('images')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <input type="submit" value="Sign Up" class="btn btn-primary">
+                    <div class="col-12 text-center">   <input type="submit" value="Sign Up" class=" btn btn-lg btn-success"></div>
+                  
                 </form>
             </div>
         </div>
