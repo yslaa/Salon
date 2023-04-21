@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="row" style="color: white;">
+    <div class="row postion:absolute" style="color: white;">
         <div class="col-md-4 col-md-offset-4">
             <h1 class="text-center">Sign In</h1>
             <form action="{{ route('user.signIn') }}" method="post">
@@ -35,7 +35,7 @@
                     @endif
                 </div>
                 <div style="display: grid; justify-content:center;">
-                    <input type="submit" value="Sign In" class="btn btn-primary">
+                    <input type="submit" value="Sign In" class="btn btn-lg btn-success">
                 </div>
             </form>
         </div>
