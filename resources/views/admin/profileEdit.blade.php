@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="row mt-5">
-                            <div class="col-12 text-center"> <!-- add text-center class -->
+                            <div class="col-12 text-center"> 
                                 {{ Form::submit('Submit', ['class' => 'btn btn-lg btn-success']) }}
                                 <a href="{{ url()->previous() }}"
                                    class="btn btn-lg btn-neutral"
