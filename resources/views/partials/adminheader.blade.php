@@ -63,11 +63,6 @@
                 @endif
                 <ul class="p-2 bg-base-100">
                     @if (Auth::check())
-                    <li>
-                            <a href="{{ url('/adminProfile') }}">
-                                Welcome, {{ Auth::user()->name }}
-                              </a>
-                        </li>
                         <li>
                             <a href="{{ url('/adminProfile') }}">
                                 Welcome, {{ Auth::user()->name }}
