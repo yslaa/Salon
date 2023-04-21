@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductModelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,18 +18,18 @@ Route::redirect('/', 'login');
 #Products
 Route::get('/product', ['uses' => 'ProductModelController@index','as' => 'product.index']);
 Route::get('/product/create', ['uses' => 'ProductModelController@create','as' => 'product.create']);
-Route::get('/product/{id}/edit', [ProductModelController::class, 'edit'])->name('product.edit');
-Route::post('/product/{id}', [ProductModelController::class, 'update'])->name('product.update');
-Route::delete('/product/{id}', [ProductModelController::class, 'destroy'])->name('product.destroy');
-Route::post('/product', [ProductModelController::class, 'store'])->name('product.store');
+Route::get('/product/{id}/edit', ['uses' =>'ProductModelController@edit','as' => 'product.edit']);
+Route::post('/product/{id}/update',['uses' =>'ProductModelController@update','as' => 'product.update']);
+Route::delete('/product/destroy/{id}',['uses' =>'ProductModelController@destroy','as' => 'product.destroy']);
+Route::post('/product', ['uses' => 'ProductModelController@store','as' => 'product.store']);
 
 #Services
 Route::get('/service', ['uses' => 'ServiceModelController@index','as' => 'service.index']);
 Route::get('/service/create', ['uses' => 'ServiceModelController@create','as' => 'service.create']);
-Route::get('/service/{id}/edit', [ServiceModelController::class, 'edit'])->name('service.edit');
-Route::post('/service/{id}', [ServiceModelController::class, 'update'])->name('service.update');
-Route::delete('/service/{id}', [ServiceModelController::class, 'destroy'])->name('service.destroy');
-Route::post('/service', [ServiceModelController::class, 'store'])->name('service.store');
+Route::get('/service/{id}/edit', ['uses' =>'ServiceModelController@edit','as' => 'service.edit']);
+Route::post('/service/{id}/update',['uses' =>'ServiceModelController@update','as' => 'service.update']);
+Route::delete('/service/destroy/{id}',['uses' =>'ServiceModelController@destroy','as' => 'service.destroy']);
+Route::post('/service', ['uses' => 'ServiceModelController@store','as' => 'service.store']);
 
 Route::group(['middleware' => 'auth'], function() {
   Route::get('logout',['uses' => 'LoginController@logout','as' => 'user.logout']);
