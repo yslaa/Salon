@@ -4,11 +4,11 @@
             <img src="/navbar/salon.png" alt="salon" style="width: 7.5rem">
         </a>
     </div>
-    <div class="flex-none" style="margin-right:2.5rem;">
+    <div class="flex-none" style="margin-right:5rem;">
         <ul class="menu menu-horizontal px-1">
             <li><a href="{{ url('/transactions') }}">Transaction</a></li>
             <li><a href="{{ url('/product') }}">Stock</a></li>
-            <li >
+            <li>
                 <a>
                     Charts
                     <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -31,7 +31,7 @@
                     </svg>
                 </a>
                 <ul class="p-2 bg-base-100">
-                    <li > <a  href="{{ url('/admin') }}">
+                    <li> <a href="{{ url('/admin') }}">
                             Admins
                         </a></li>
                     <li> <a href="{{ url('/customer') }}">
@@ -50,16 +50,16 @@
                     Search
                 </a></li>
 
-            <li tabindex="0" >
+            <li tabindex="0">
                 @if (Auth::check())
             <li>
                 <a href="#"><i class="fa fa-user"></i>
-                    {{ Auth::user()->role }}    
+                    {{ Auth::user()->role }}
                     <span class="caret"></span></a>
             @else
             <li>
                 <a href="#">
-                Guest</a>
+                    Guest</a>
                 @endif
                 <ul class="p-2 bg-base-100">
                     @if (Auth::check())
@@ -72,7 +72,7 @@
                             <a href="{{ url('/admin/profile/edit/{id}') }}">
                                 Update Profile
                             </a>
-                        
+
                         <li><a href="{{ route('user.logout') }}">Logout</a></li>
                     @else
                         <li><a href="{{ route('customer.registers') }}">Customer Signup</a></li>
