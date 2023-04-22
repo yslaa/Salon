@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        height: 100%;
+    }
+</style>
 
 <head>
     <meta charset="utf-8">
@@ -11,7 +23,8 @@
     @vite('resources/js/app.js')
 </head>
 
-<body style="background-image: url(/navbar/background-salon.jpg); background-repeat: no-repeat; background-size:cover; overflow:hidden;">
+<body
+    style="background-image: url(/navbar/background-salon.jpg); background-repeat: no-repeat; background-size:cover; overflow:hidden;">
     @include('sweetalert::alert')
     @include('partials.serviceheader')
     <div>
