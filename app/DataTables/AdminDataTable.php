@@ -92,9 +92,9 @@ public function query(AdminModel $model): QueryBuilder
 
     return $model->newQuery()
         ->join('users', 'admins.user_id', '=', 'users.id')
-        ->select('admins.id', 'users.name','users.email', 'users.images','users.deleted_at')
+        ->select('users.name','users.email', 'users.id', 'users.images','users.deleted_at')
         ->where('users.id', '<>', $loggedInUserId)
-        ->groupBy('admins.id', 'users.name', 'users.email','users.images','users.deleted_at');
+        ->groupBy('users.name','users.email', 'users.id', 'users.images','users.deleted_at');
 }
 
 
