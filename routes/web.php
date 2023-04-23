@@ -60,7 +60,7 @@ Route::group(['middleware' => 'role:admin'], function() {
   Route::get('/admin/profile/edit/{id}', ['uses' => 'AdminController@profileEdit','as' => 'admin.profileEdit']);
   Route::post('/admin/profile/edit/{id}', ['uses' => 'AdminController@profileUpdate','as' => 'admin.profileUpdate']); 
   Route::get('/admin', ['uses' => 'AdminController@index','as' => 'admin.index']);
-  Route::get('admin/{id}', ['uses' => 'AdminController@show','as' => 'admin.show']);
+  Route::get('/admin/{id}', ['uses' => 'AdminController@show','as' => 'admin.show']);
   Route::get('/admin/{id}/edit', ['uses' =>'AdminController@edit','as' => 'admin.edit']);
   Route::post('/admin/{id}/update',['uses' =>'AdminController@update','as' => 'admin.update']);
   Route::delete('/admin/destroy/{id}',['uses' =>'AdminController@destroy','as' => 'admin.destroy']);

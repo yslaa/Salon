@@ -32,45 +32,52 @@ public function dataTable(QueryBuilder $query): EloquentDataTable
             }
             return $html;
         })
+        ->addColumn('id', function($admin) {
+        $showUrl = route('admin.show', $admin->id);
+        $id = '<span>'.$admin->id.'</span>';
+        if (!$admin->deleted_at) {
+            $id = '<a href="'.$showUrl.'">'.$admin->id.'</a>';
+        }
+        return $id;
+        })
         ->addColumn('action', function($admin) {
             $editUrl = route('admin.edit', $admin->id);
             $csrf = csrf_field();
 
-if ($admin->deleted_at) {
-    $restoreUrl = route('admin.restore', $admin->id);
-    $restoreButton = '<a href="'.$restoreUrl.'" class="btn btn-success">Restore</a>';
+            if ($admin->deleted_at) {
+                $restoreUrl = route('admin.restore', $admin->id);
+                $restoreButton = '<a href="'.$restoreUrl.'" class="btn btn-success">Restore</a>';
 
-    $forceDeleteUrl = route('admin.forceDelete', $admin->id);
-    $method = method_field('GET');
-    $forceDeleteButton = '<button class="btn btn-warning" type="submit">Destroy</button>';
+                $forceDeleteUrl = route('admin.forceDelete', $admin->id);
+                $method = method_field('GET');
+                $forceDeleteButton = '<button class="btn btn-warning" type="submit">Destroy</button>';
 
-    $csrf = csrf_field();
-    $buttons = <<<EOT
-        $restoreButton
-        <form action="$forceDeleteUrl" method="POST">
-            $csrf
-            $method
-            $forceDeleteButton
-        </form>
-    EOT;
-} else {
-    $deleteUrl = route('admin.destroy', $admin->id);
-    $method = method_field('DELETE');
-    $deleteButton = '<button class="btn btn-danger" type="submit">Delete</button>';
-    $buttons = <<<EOT
-        <a href="$editUrl" class="btn btn-warning">Edit</a>
-        <form action="$deleteUrl" method="POST">
-            $csrf
-            $method
-            $deleteButton
-        </form>
-    EOT;
-}
-
+                $csrf = csrf_field();
+                $buttons = <<<EOT
+                    $restoreButton
+                    <form action="$forceDeleteUrl" method="POST">
+                        $csrf
+                        $method
+                        $forceDeleteButton
+                    </form>
+                EOT;
+            } else {
+                $deleteUrl = route('admin.destroy', $admin->id);
+                $method = method_field('DELETE');
+                $deleteButton = '<button class="btn btn-danger" type="submit">Delete</button>';
+                $buttons = <<<EOT
+                    <a href="$editUrl" class="btn btn-warning">Edit</a>
+                    <form action="$deleteUrl" method="POST">
+                        $csrf
+                        $method
+                        $deleteButton
+                    </form>
+                EOT;
+            }
 
             return $buttons;
         })
-        ->rawColumns(['images', 'action']);
+        ->rawColumns(['images', 'id', 'action']);
 }
 
     /**
@@ -120,18 +127,18 @@ public function query(AdminModel $model): QueryBuilder
      *
      * @return array
      */
-    public function getColumns(): array
-    {
-        return [
-            Column::make('id'),
-            Column::make('name')->title('adminName'),
-            Column::make('email'),
-            Column::make('images'),
-            Column::make('action')
-                ->exportable(false)
-                ->printable(false),
-        ];
-    }
+public function getColumns(): array
+{
+    return [
+        Column::make('id'),
+        Column::make('name')->title('adminName'),
+        Column::make('email'),
+        Column::make('images'),
+        Column::make('action')
+            ->exportable(false)
+            ->printable(false),
+    ];
+}
 
     /**
      * Get filename for export.
