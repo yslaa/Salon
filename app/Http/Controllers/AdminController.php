@@ -110,24 +110,24 @@ class AdminController extends Controller
             'password.min' => 'Your password must be at least 4 characters long.',
         ]);
 
-$user = new User();
-$user->name = $request->input("name");
-$user->email = $request->input("email");
-$user->password = bcrypt($request->input('password'));
-$user->role = 'admin';
+            $user = new User();
+            $user->name = $request->input("name");
+            $user->email = $request->input("email");
+            $user->password = bcrypt($request->input('password'));
+            $user->role = 'admin';
 
-$images = array();
-if ($files = $request->file('images')) {
-    foreach ($files as $file) {
-        $name = $file->getClientOriginalName();
-        $destinationPath = public_path().'/images/admin';
-        $file->move($destinationPath, $name);
-        $images[] = 'images/admin/'.$name;
-    }
-}
+            $images = array();
+            if ($files = $request->file('images')) {
+                foreach ($files as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/admin';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/admin/'.$name;
+                }
+            }
 
-$user->images = implode('|', $images);
-$user->save();
+            $user->images = implode('|', $images);
+            $user->save();
 
         $admin = new AdminModel();
                 $admin->user_id = $user->id;
@@ -190,19 +190,19 @@ $user->save();
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-$admins = User::find($id);
-$admins->name = $request->input("name");
-$admins->email = $request->input("email");
+            $admins = User::find($id);
+            $admins->name = $request->input("name");
+            $admins->email = $request->input("email");
 
-$images = [];
-if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $file) {
-        $name = $file->getClientOriginalName();
-        $destinationPath = public_path().'/images/admin';
-        $file->move($destinationPath, $name);
-        $images[] = 'images/admin/'.$name;
-    }
-    $admins->images = implode('|', $images);
+            $images = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/admin';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/admin/'.$name;
+                }
+                $admins->images = implode('|', $images);
 }
 
 $admins->update();
