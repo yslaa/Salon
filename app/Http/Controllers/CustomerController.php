@@ -11,53 +11,61 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\CustomerModel;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\DataTables\CustomerDataTable;
 
 class CustomerController extends Controller
 {
+
+    public function index(CustomerDataTable $dataTable)
+    {
+        return $dataTable->render('customer.index');
+    }
+
      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $customer = User::join(
-            "customers",
-            "users.id",
-            "=",
-            "customers.user_id"
-        )
-            ->select(
-                "users.id",
-                "users.name",
-                "users.images",
-                "users.role",
-                "users.deleted_at",
-                "customers.user_id",
-            )
-            ->orderBy("customers.user_id", "DESC")
-            ->withTrashed()
-            ->get();
 
-        if (session(key: "success_message")) {
-            Alert::image(
-                "Congratulations!",
-                session(key: "success_message"),
-                "https://i.pinimg.com/originals/59/c2/82/59c2820a57734d7fb2780dd47eed6f23.gif",
-                "200",
-                "200",
-                "I Am A Pic"
-            );
-        }
+    // public function index()
+    // {
+    //     $customers = User::join(
+    //         "customers",
+    //         "users.id",
+    //         "=",
+    //         "customers.user_id"
+    //         )
+    //         ->select(
+    //             "users.id",
+    //             "users.name",
+    //             "users.images",
+    //             "users.role",
+    //             "users.deleted_at",
+    //             "customers.user_id",
+    //         )
+    //         ->where('users.id', '<>', Auth::user()->id)  
+    //         ->orderBy("customers.user_id", "DESC")
+    //         ->withTrashed()
+    //         ->get();
 
-        return view("customer.index", ["customers" => $customer]);
-    }
+    //     if (session(key: "success_message")) {
+    //         Alert::image(
+    //             "Congratulations!",
+    //             session(key: "success_message"),
+    //             "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjc2NTBmNjk5M2RlNjdjZTg2MzYzMjEwNTkzNTcwNjc3MTk5NjNhMCZjdD1z/gip7vQSzEepGIoCz4K/giphy.gif",
+    //             "200",
+    //             "200",
+    //             "I Am A Pic"
+    //         );
+    //     }
 
+    //     return view("customer.index", ["customers" => $customers]);
+    // }
 
     /**
      * Display a listing of the resource.
      */
-    public function getCustomerProfile()
+    public function getcustomerProfile()
     {
         $customer = User::join(
             "customers",
@@ -102,21 +110,26 @@ class CustomerController extends Controller
             'password.min' => 'Your password must be at least 4 characters long.',
         ]);
 
-        $user = new User();
-                $user->name = $request->input("name");
-                $user->email = $request->input("email");
-                $user->password = bcrypt($request->input('password'));
-                $user->role = 'customer';
+            $user = new User();
+            $user->name = $request->input("name");
+            $user->email = $request->input("email");
+            $user->password = bcrypt($request->input('password'));
+            $user->role = 'customer';
 
-            if ($request->hasfile("images")) {
-                $file = $request->file("images");
-                $filename =  $file->getClientOriginalName();
-                $file->move("images/customer/", $filename);
-                $user->images = $filename;
+            $images = array();
+            if ($files = $request->file('images')) {
+                foreach ($files as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/customer';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/customer/'.$name;
+                }
             }
-                $user->save();
 
-        $customer = new CustomerModel();
+            $user->images = implode('|', $images);
+            $user->save();
+
+        $customer = new customerModel();
                 $customer->user_id = $user->id;
 
         $customer->save();
@@ -177,24 +190,27 @@ class CustomerController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $customers = User::find($id);
-        $customers->name = $request->input("name");
-        $customers->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = "images/customer/" . $customers->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/customer/", $filename);
-            $customers->images = $filename;
-        }
-        $customers->update();
-        return Redirect::to("/customer")->withSuccessMessage("Customer Updated!");
+            $customers = User::find($id);
+            $customers->name = $request->input("name");
+            $customers->email = $request->input("email");
+
+            $images = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/customer';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/customer/'.$name;
+                }
+                $customers->images = implode('|', $images);
+}
+
+$customers->update();
+
+        return Redirect::to("/customer")->withSuccessMessage("customer Updated!");
     }
 
-   public function profileEdit($id)
+    public function profileEdit($id)
     {
         $customers = DB::table('users')
             ->join('customers', 'users.id', '=', 'customers.user_id')
@@ -223,23 +239,23 @@ class CustomerController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $user = User::find($id);
-        $user->name = $request->input("name");
-        $user->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = "images/customer/" . $user->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/customer/", $filename);
-            $user->images = $filename;
-        }
-        $user->update();
+$customers = User::find($id);
+$customers->name = $request->input("name");
+$customers->email = $request->input("email");
+
+$images = [];
+if ($request->hasFile('images')) {
+    foreach ($request->file('images') as $file) {
+        $name = $file->getClientOriginalName();
+        $destinationPath = public_path().'/images/customer';
+        $file->move($destinationPath, $name);
+        $images[] = 'images/customer/'.$name;
+    }
+    $customers->images = implode('|', $images);
+    $customers->update();
         return redirect()->route('customer.profile');
     }
-
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -257,22 +273,18 @@ class CustomerController extends Controller
         User::onlyTrashed()
             ->findOrFail($id)
             ->restore();
-        return Redirect::to("/customer")->withSuccessMessage("Customer Restored!");
+        return Redirect::to("/customer")->withSuccessMessage("customer Restored!");
     }
-
-    public function forceDelete($id)
-    {
-        $customers = User::findOrFail($id);
-        $destination = "uploads/customers/" . $customers->images;
+public function forceDelete($id)
+{
+    $customer = User::onlyTrashed()->findOrFail($id);
+        $destination = $customer->images;
         if (File::exists($destination)) {
             File::delete($destination);
         }
-        $customers->forceDelete();
-        return Redirect::to("/customer")->withSuccessMessage("Customer Permanently Deleted!");
-    }
+    $customer->forceDelete();
 
-    // public function services(){
-        
-    // }
+    return redirect()->route('customer.index')->withSuccessMessage('customer permanently deleted.');
+}
 
 }
