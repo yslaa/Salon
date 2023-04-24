@@ -15,22 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'login');
 
-#Products
-Route::get('/product', ['uses' => 'ProductModelController@index','as' => 'product.index']);
-Route::get('/product/create', ['uses' => 'ProductModelController@create','as' => 'product.create']);
-Route::get('/product/{id}/edit', ['uses' =>'ProductModelController@edit','as' => 'product.edit']);
-Route::post('/product/{id}/update',['uses' =>'ProductModelController@update','as' => 'product.update']);
-Route::delete('/product/destroy/{id}',['uses' =>'ProductModelController@destroy','as' => 'product.destroy']);
-Route::post('/product', ['uses' => 'ProductModelController@store','as' => 'product.store']);
-
-#Services
-Route::get('/service', ['uses' => 'ServiceModelController@index','as' => 'service.index']);
-Route::get('/service/create', ['uses' => 'ServiceModelController@create','as' => 'service.create']);
-Route::get('/service/{id}/edit', ['uses' =>'ServiceModelController@edit','as' => 'service.edit']);
-Route::post('/service/{id}/update',['uses' =>'ServiceModelController@update','as' => 'service.update']);
-Route::delete('/service/destroy/{id}',['uses' =>'ServiceModelController@destroy','as' => 'service.destroy']);
-Route::post('/service', ['uses' => 'ServiceModelController@store','as' => 'service.store']);
-
 Route::group(['middleware' => 'auth'], function() {
   Route::get('logout',['uses' => 'LoginController@logout','as' => 'user.logout']);
 });
@@ -39,7 +23,6 @@ Route::group(['middleware' => 'isLogin'], function() {
   Route::get('/login', ['uses' => 'LoginController@getSignIn','as' => 'user.signIns']);
   Route::post('/login', ['uses' => 'LoginController@postSignIn','as' => 'user.signIn']);
 
-  // Route::post('/product', ['uses' => 'ProductModelController@postSignIn','as' => 'user.signIn']);
   #Admin
   Route::get('/adminRegister', ['uses' => 'AdminController@getRegister','as' => 'admin.registers']);
   Route::post('/adminRegister', ['uses' => 'AdminController@postRegistered','as' => 'admin.register']);
@@ -112,4 +95,24 @@ Route::group(['middleware' => 'role:supplier'], function() {
   Route::get('/supplierProfile', ['uses' => 'SupplierController@getSupplierProfile','as' => 'supplier.profile']);
   Route::get('/supplier/profile/edit/{id}', ['uses' => 'SupplierController@profileEdit','as' => 'supplier.profileEdit']);
   Route::post('/supplier/profile/edit/{id}', ['uses' => 'SupplierController@profileUpdate','as' => 'supplier.profileUpdate']);
+});
+
+Route::group(['middleware' => 'role:admin,supplier'], function() {
+#Products
+Route::get('/product', ['uses' => 'ProductModelController@index','as' => 'product.index']);
+Route::get('/product/create', ['uses' => 'ProductModelController@create','as' => 'product.create']);
+Route::get('/product/{id}/edit', ['uses' =>'ProductModelController@edit','as' => 'product.edit']);
+Route::post('/product/{id}/update',['uses' =>'ProductModelController@update','as' => 'product.update']);
+Route::delete('/product/destroy/{id}',['uses' =>'ProductModelController@destroy','as' => 'product.destroy']);
+Route::post('/product', ['uses' => 'ProductModelController@store','as' => 'product.store']);
+});
+
+Route::group(['middleware' => 'role:admin'], function() {
+#Services
+Route::get('/service', ['uses' => 'ServiceModelController@index','as' => 'service.index']);
+Route::get('/service/create', ['uses' => 'ServiceModelController@create','as' => 'service.create']);
+Route::get('/service/{id}/edit', ['uses' =>'ServiceModelController@edit','as' => 'service.edit']);
+Route::post('/service/{id}/update',['uses' =>'ServiceModelController@update','as' => 'service.update']);
+Route::delete('/service/destroy/{id}',['uses' =>'ServiceModelController@destroy','as' => 'service.destroy']);
+Route::post('/service', ['uses' => 'ServiceModelController@store','as' => 'service.store']);
 });
