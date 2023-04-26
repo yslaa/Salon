@@ -31,6 +31,12 @@ Route::post('/service/{id}/update',['uses' =>'ServiceModelController@update','as
 Route::delete('/service/destroy/{id}',['uses' =>'ServiceModelController@destroy','as' => 'service.destroy']);
 Route::post('/service', ['uses' => 'ServiceModelController@store','as' => 'service.store']);
 
+#Transaction
+Route::get('/transac', ['uses' => 'TransactionModelController@getServices','as' => 'getServices']);
+Route::get('/avail-service/{id}', ['uses' => 'TransactionModelController@addAvail','as' => 'addAvail']);
+Route::get('/availed-service', ['uses' => 'TransactionModelController@getAvailed','as' => 'getAvailed']);
+Route::get('/remove/{id}', ['uses' => 'TransactionModelController@removeService','as' => 'removeService']);
+
 Route::group(['middleware' => 'auth'], function() {
   Route::get('logout',['uses' => 'LoginController@logout','as' => 'user.logout']);
 });

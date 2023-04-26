@@ -27,8 +27,8 @@
                 <div class="form-group text-center">
                     <label for="captcha" class="col-form-label mb-2 text-center">Captcha</label>
                     <div style="display: grid; justify-content:center;">
-                        {!! NoCaptcha::renderJs() !!}
-                        {!! NoCaptcha::display() !!}
+                        {{-- {!! NoCaptcha::renderJs() !!}
+                        {!! NoCaptcha::display() !!} --}}
                     </div>
                     @if ($errors->has('g-recaptcha-response'))
                         <div class="text-danger">{{ $errors->first('g-recaptcha-response') }}</div>
