@@ -40,24 +40,21 @@
             </div>
         </div> 
 
-        @if(Auth::check() && Auth::user()->role === 'admin')
-
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label for="employee">Employee</label>
-                                <select class="form-select form-control" aria-label="Select Employee" name="employee">
-                                <option selected>Select Employee</option>
-                                @foreach($employees as $employee)
-                                    <option value="{{$employee->emp_id}}">{{$employee->name}}</option>
-                                @endforeach
-                                </select>
-                        
-                                @error('employee')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-        @endif
+        <div class="form-group row">
+            <div class="col-md-6">
+                <label for="employee">Employee</label>
+                <select class="form-select form-control" aria-label="Select Employee" name="employee">
+                    <option selected>Select Employee</option>
+                        @foreach($employees as $employee)
+                            <option value="{{$employee->emp_id}}">{{$employee->name}}</option>
+                        @endforeach
+                </select>
+                
+                @error('employee')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
 
         {{-- <div class="form-group row">
             <label class="form-check-label" for="file">Upload roduct Image</label>

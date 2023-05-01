@@ -14,7 +14,6 @@
                 <th scope="col">Id</th>
                 <th scope="col">Product</th>
                 <th scope="col">Description</th>
-                <th scope="col">Cost</th>
                 <th scope="col">Quantity</th>
                 {{-- <th scope="col">Image</th> --}}
                 <th scope="col">Action</th>
@@ -28,7 +27,6 @@
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->product }}</td>
                     <td>{{ $product->description }}</td>
-                    <td>{{ $product->cost }}</td>
                     <td>{{ $product->quantity }}</td>
                     {{-- <td><img src="{{url($product->img_path)}}" alt="" width="150px" height="100px"></td> --}}
                     <td>

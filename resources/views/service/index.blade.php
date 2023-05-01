@@ -29,8 +29,8 @@
                     <td>{{ $service->id }}</td>
                     <td>{{ $service->service }}</td>
                     <td>{{ $service->cost }}</td>
-                    <td>{{ $service->employee_id }}</td>
-                    <td>{{ $service->product_id }}</td>
+                    <td>{{ $service->name }}</td>
+                    <td>{{ $service->product }}</td>
                     {{-- <td><img src="{{url($service->img_path)}}" alt="" width="150px" height="100px"></td> --}}
                     <td>
                     <td><a href="{{route('service.edit', $service->id)}}"><i class="fas fa-edit"></i></a></td>
