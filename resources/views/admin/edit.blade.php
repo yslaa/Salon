@@ -18,11 +18,11 @@
                     'method' => 'POST',
                     'enctype' => 'multipart/form-data',
                 ]) }}
-                <div class="block">
+                <div class="block border border-gray-300 p-4">
                     <div>
                         <label for="name" class="text-lg">Name</label>
                         {{ Form::text('name', null, [
-                            'class' => 'block shadow-5xl p-2 my-2 w-full',
+                            'class' => 'block shadow-5xl p-2 my-2 w-full border border-gray-300',
                             'id' => 'name',
                         ]) }}
                         @if ($errors->has('name'))
@@ -33,8 +33,7 @@
                     <div>
                         <label for="email" class="text-lg">Email</label>
                         {{ Form::text('email', null, [
-                            'class' => 'block shadow-5xl p-2 my-2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    w-full',
+                            'class' => 'block shadow-5xl p-2 my-2 w-full border border-gray-300',
                             'id' => 'email',
                         ]) }}
                         @if ($errors->has('email'))
@@ -44,11 +43,11 @@
 
                     <div>
                         <label for="images" class="block text-lg pb-3">Admin Picture</label>
-                        {{ Form::file('images[]', ['multiple' => true], ['class' => 'block shadow-5xl p-2 my-2 w-full', 'id' => 'images']) }}
+                        {{ Form::file('images[]', ['multiple' => true], ['class' => 'block shadow-5xl p-2 my-2 w-full border border-gray-300', 'id' => 'images']) }}
                         @if ($admins->images)
                             @foreach (explode('|', $admins->images) as $image)
                                 <img src="{{ asset($image) }}" alt="I am A Pic" width="100" height="100"
-                                    class="ml-24 py-2">
+                                    class="ml-24 py-2 border border-gray-300">
                             @endforeach
                         @endif
                         @if ($errors->has('images'))
@@ -57,9 +56,9 @@
                     </div>
 
 
-                    <div class="grid grid-cols-2 gap-2 w-full">
-                        {{ Form::submit('Submit', ['class' => 'btn bg-green-500 p-2 mt-5 btn-lg btn-block']) }}
-                        <a href="{{ url()->previous() }}" class="bg-gray-800 text-white font-bold p-2 mt-5 text-center"
+                    <div class="grid-cols-2 gap-2 w-full">
+                        {{ Form::submit('Submit', ['class' => 'btn bg-green-500 p-2 mt-5 btn-lg btn-block border border-gray-300']) }}
+                        <a href="{{ url()->previous() }}" class="btn bg-gray-800 text-white p-2 mt-5 text-center btn-block btn-lg btn-block border border-gray-300"
                             role="button">Cancel</a>
                     </div>
                 </div>
