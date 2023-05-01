@@ -19,7 +19,12 @@ class ServiceModelController extends Controller
      */
     public function index()
     {
-        $services = ServiceModel::all();
+        $services =  DB::table('services as s')
+        ->join('products as p','p.id', '=', 's.product_id')
+        ->join('employees as e','e.id', '=', 's.employee_id')
+        ->join('users as u','u.id', '=', 'e.user_id')
+        ->get(['s.id','s.service', 's.cost', 'u.name', 'p.product']);
+
         return view("service.index", ["services" => $services]);
 
     }
@@ -57,18 +62,15 @@ class ServiceModelController extends Controller
             'employee'=>'required'
         ]);
 
-        $serve_id = DB::table('services')->insertGetId([
+        DB::table('services')->insert([
             'service' => $request->service,
             'cost' => $request->cost,
             'product_id' => $request->product,
+            'employee_id' =>  $request->employee,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        
-        DB::table('service_employee')->insert([
-            'service_id' => $serve_id,
-            'employee_id' => $request->employee,
-        ]);
+    
         
         return redirect()->route('service.index')->with('message', 'Service Added');
     }
@@ -98,6 +100,8 @@ class ServiceModelController extends Controller
             ->join('users as u','u.id', '=', 'e.user_id')
             ->where('u.role', '=', 'employee')
             ->get(['u.name','e.id as emp_id']);
+
+
         return view('service.edit', compact('services', 'products', 'employees'));
     }
 
@@ -114,12 +118,10 @@ class ServiceModelController extends Controller
             'service' => $request->service,
             'cost' => $request->cost,
             'product_id' => $request->product,
+            'employee_id' => $request->employee,
             'updated_at' => now()
         ]);
 
-        $serve_emp = DB::table('service_employee')->where('service_id', $id)->update([
-            'employee_id' => $request->employee,
-        ]);
 
         // if($request->file()) {
         //     $fileName = time().'_'.$request->file('img_path')->getClientOriginalName();
