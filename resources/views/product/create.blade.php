@@ -40,20 +40,6 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="cost" class="col-md-4 col-form-label text-md-right">Price Tag</label>
-
-                            <div class="col-md-6">
-                                <input id="cost" type="float" class="form-control" name="cost">
-
-                                @error('cost')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
                             <label for="quantity" class="col-md-4 col-form-label text-md-right">Quantity</label>
 
                             <div class="col-md-6">

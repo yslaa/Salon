@@ -21,11 +21,6 @@
         </div>
 
         <div class="form-group row">
-            <label for="cost">Product Cost</label>
-            <input type="float" class="form-control" id="cost"  name="cost" placeholder="Enter Product Cost" value="{{$products->cost}}">
-        </div>
-
-        <div class="form-group row">
             <label for="quantity">Product Quantity</label>
             <input type="number" class="form-control" id="quantity"  name="quantity" placeholder="Enter Product Quantity" value="{{$products->quantity}}">
         </div>
