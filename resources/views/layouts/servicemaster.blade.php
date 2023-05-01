@@ -27,11 +27,12 @@
 
 </head>
 
-<body
-    style="background-image: url('https://images.unsplash.com/photo-1519680772-8b8b0b5b0b1a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2FsYW58ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'); background-repeat: no-repeat; background-size: cover;">
+<body>
+ 
     @include('sweetalert::alert')
     @include('partials.serviceheader')
     <main>
+    <main >
         @yield('content')
     </main>
 
