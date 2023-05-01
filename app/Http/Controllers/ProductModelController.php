@@ -46,7 +46,6 @@ class ProductModelController extends Controller
             'product'=>'required|max:50',
             'description'=>'required|max:100',
             'quantity'=>'required|min:1|max:50',
-            'cost'=>'required'
         ]);
 
         $products = new ProductModel;
@@ -56,7 +55,6 @@ class ProductModelController extends Controller
         $products->product = $request->product;
         $products->description = $request->description;
         $products->quantity = $request->quantity;
-        $products->cost = $request->cost;
         $products->supplier_id = $supp_id;
         // dd($products);
         $products->save();
@@ -114,7 +112,6 @@ class ProductModelController extends Controller
         $products->product = $request->product;
         $products->description = $request->description;
         $products->quantity = $request->quantity;
-        $products->cost = $request->cost;
         $products->supplier_id = $supp_id;
         $products->save();
         return redirect()->route('product.index')->withSuccessMessage("Product Updated!");
