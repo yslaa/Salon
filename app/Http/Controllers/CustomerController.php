@@ -18,6 +18,17 @@ class CustomerController extends Controller
 
     public function index(CustomerDataTable $dataTable)
     {
+        
+            if (session('success_message')) {
+                Alert::image(
+                    "Congratulations!",
+                    session('success_message'),
+                    "https://i.pinimg.com/originals/59/c2/82/59c2820a57734d7fb2780dd47eed6f23.gif",
+                    "200",
+                    "200",
+                    "I Am A Pic"
+                );
+            }
         return $dataTable->render('customer.index');
     }
 
