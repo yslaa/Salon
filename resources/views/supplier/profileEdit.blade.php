@@ -1,4 +1,4 @@
-@extends('layouts.productmaster')
+@extends('layouts.suppliermaster')
 
 @section('title')
     Supplier Profile Edit
@@ -40,24 +40,25 @@
                             @endif
                         </div>
 
-                        <div class="form-group">
+                        <div>
                             <label for="images" class="block text-lg pb-3">Supplier Picture</label>
-                            {{ Form::file('images', null, ['class' => 'form-control', 'id' => 'images']) }}
-                            <img src="{{ asset('images/supplier/' . $suppliers->images) }}" alt="I am A Pic" width="100"
-                                height="100" class="ml-24 py-2">
+                            {{ Form::file('images[]', ['multiple' => true], ['class' => 'block shadow-5xl p-2 my-2 w-full', 'id' => 'images']) }}
+                            @if ($suppliers->images)
+                            @foreach (explode('|', $suppliers->images) as $image)
+                                <img src="{{ asset($image) }}" alt="I am A Pic" width="100" height="100" class="ml-24 py-2 w-32 rounded-xl">
+                            @endforeach
+                        @endif
                             @if ($errors->has('images'))
                                 <p class="text-center text-red-500">{{ $errors->first('images') }}</p>
                             @endif
                         </div>
 
                         <div class="row mt-5">
-                            <div class="col-6">
-                                {{ Form::submit('Submit', ['class' => 'btn bg-green-500 p-2 btn-lg btn-block']) }}
-                            </div>
-                            <div class="col-6">
+                            <div class="col-12 text-center"> 
+                                {{ Form::submit('Submit', ['class' => 'btn btn-lg btn-success']) }}
                                 <a href="{{ url()->previous() }}"
-                                    class="btn bg-gray-800 text-white font-bold p-2 btn-lg btn-block"
-                                    role="button">Cancel</a>
+                                   class="btn btn-lg btn-neutral"
+                                   role="button">Cancel</a>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.productmaster')
+@extends('layouts.adminmaster')
 
 @section('title')
     Supplier Index

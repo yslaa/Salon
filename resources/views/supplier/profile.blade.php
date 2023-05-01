@@ -1,151 +1,40 @@
-@extends('layouts.productmaster')
+@extends('layouts.suppliermaster')
 
 @section('title')
     Supplier Profile
 @endsection
 
 @section('content')
-    <style>
-        .align-center {
-            text-align: center;
-        }
-
-        .hash-list {
-            display: block;
-            padding: 0;
-            margin: 0 auto;
-        }
-
-        .hash-list>li {
-            display: block;
-            float: left;
-            background-color: rgba(255, 237, 216);
-            border-radius: 1rem;
-        }
-
-        .pad-30,
-        .pad-30-all>* {
-            padding: 30px;
-        }
-
-        .img {
-            border-radius: 75%;
-            border: 1px solid rgb(90, 52, 22);
-            padding: 5px;
-        }
-
-        .mgb-20,
-        .mgb-20-all>* {
-            margin-bottom: 20px;
-        }
-
-        .wpx-100,
-        .wpx-100-after:after {
-            width: 25%;
-        }
-
-        .img-round,
-        .img-rel-round {
-            border-radius: 50%;
-        }
-
-        .padb-30,
-        .padb-30-all>* {
-            padding-bottom: 30px;
-        }
-
-        .mgb-40,
-        .mgb-40-all>* {
-            margin-bottom: 40px;
-        }
-
-        .align-center {
-            text-align: center;
-        }
-
-        [class*="line-b"] {
-            position: relative;
-            padding-bottom: 20px;
-            border-color: #E6AF2A;
-        }
-
-        .fg-text-d,
-        .fg-hov-text-d:hover,
-        .fg-active-text-d.active {
-            color: #222;
-        }
-
-        .font-cond-b {
-            font-weight: 700 !important;
-        }
-
-        .center {
-            display: grid;
-            justify-content: center;
-            margin-top: -5rem;
-            font-size: 3rem;
-            color: rgba(0, 0, 0, 0.800);
-            font-weight: 700;
-        }
-
-        .info {
-            font-size: 3rem;
-            color: rgba(0, 0, 0, 0.800);
-            font-weight: 700;
-        }
-
-        .text {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-
-        #spam {
-            padding: 0 4rem;
-        }
-
-        .container {
-            background-color: rgba(255, 255, 255, 0.5);
-            width: fit-content;
-            height: fit-content;
-            padding: 1rem 3rem;
-            border-radius: .75rem;
-
-        }
-    </style>
-
-    <div class="container">
-        <div class="mgb-40 padb-30 auto-invert line-b-4 align-center">
-            <h1 class="font-cond-l fg-accent lts-md mgb-10" contenteditable="false">𝐒𝐮𝐩𝐩𝐥𝐢𝐞𝐫 𝐏𝐫𝐨𝐟𝐢𝐥𝐞</h1>
-            <h1 class="font-cond-b fg-text-d lts-md fs-300 fs-300-xs no-mg" contenteditable="false">
-                Welcome to Serenity Salon
-                <i style="color:rgb(151, 81, 66)"> {{ $supplier->name }}</i>
-
+<div class="flex justify-center">
+  <div class="w-full max-w-lg">
+    <div class="card bg-white border border-info shadow-xl flex flex-col h-[500px]" style="border: 4px solid #718096">
+      <div class="card-body flex flex-col justify-center items-center text-center">
+        <h1 class="text-4xl font-bold text-accent mgb-10" contenteditable="false">𝐒𝐮𝐩𝐩𝐥𝐢𝐞𝐫 𝐏𝐫𝐨𝐟𝐢𝐥𝐞</h1>
+        <h2 class="font-inter-bold font-bold text-lg md:text-xl lg:text-2xl mb-8 text-center text-gray-700">
+          Welcome to Serenity Salon <i style="color: #28BD5F">{{ $supplier->name }}!</i>
+      </h2>
+        <div class="mx-auto my-10">
+          @if ($supplier->images)
+          <div class="flex justify-center items-center">
+            @foreach (explode('|', $supplier->images) as $image)
+            <div class="avatar mx-2">
+              <div class="w-full h-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 flex justify-center items-center">
+                <img src="{{ asset($image) }}" alt="I am A Pic" class="w-full h-full object-cover">
+              </div>
+            </div>
+            @endforeach
+          </div>
+          @endif
+          <div class="bg-white border rounded-md shadow-lg p-5 mt-7" style="border: 2px solid #718096">
+            <div class="flex flex-col space-y-2">
+              <div class="font-inter-bold font-bold" id="spam">ID: <span style="color:#28BD5F">{{ $supplier->id }}</span></div>
+              <div class="font-inter-bold font-bold" id="spam">Role: <span style="color:#28BD5F">{{ $supplier->role }}</span></div>
+              <div class="font-inter-bold font-bold" id="spam">User ID: <span style="color:#28BD5F">{{ $supplier->user_id }}</span></div>
+            </div>
+          </div>
         </div>
-        <div class="center">
-
-            <ul class="hash-list cols-4 cols-2-xs pad-30-all align-center text-sm">
-                <li>
-                    <p>Supplier Image</p>
-                    <img class="img" src="{{ asset('images/supplier/' . $supplier->images) }}" alt="I am A Pic"
-                        alt="supplier Profile" width="200" height="200">
-                    <br>
-                                        <span id="spam">ID: <i style="color:rgb(151, 81, 66)"> {{ $supplier->id }}</i></span>
-                    <br>
-
-                    <span class="fs-110 font-cond-l " contenteditable="false">Role: <i
-                            style="color:rgb(151, 81, 66)">{{ $supplier->role }}</i>
-                    </span>
-
-                    <br>
-                    <span id="spam">User ID: <i
-                            style="color:rgb(151, 81, 66)">{{ $supplier->user_id }}</i></span>
-                    <br>
-
-                </li>
-
-            </ul>
-
-        </div>
-
+      </div>
     </div>
+  </div>
+</div>
 @endsection
