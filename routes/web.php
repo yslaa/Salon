@@ -83,6 +83,10 @@ Route::group(['middleware' => 'role:customer'], function() {
   Route::get('/customerProfile', ['uses' => 'CustomerController@getCustomerProfile','as' => 'customer.profile']);
   Route::get('/customer/profile/edit/{id}', ['uses' => 'CustomerController@profileEdit','as' => 'customer.profileEdit']);
   Route::post('/customer/profile/edit/{id}', ['uses' => 'CustomerController@profileUpdate','as' => 'customer.profileUpdate']);
+
+  #transaction
+  Route::get('/index', ['uses' => 'TransactionModelController@index','as' => 'customer.index']);
+  Route::get('/index/{id}', ['uses' => 'TransactionModelController@serviceDetails','as' => 'customer.details']);
 });
 
 Route::group(['middleware' => 'role:employee'], function() {
@@ -115,4 +119,20 @@ Route::get('/service/{id}/edit', ['uses' =>'ServiceModelController@edit','as' =>
 Route::post('/service/{id}/update',['uses' =>'ServiceModelController@update','as' => 'service.update']);
 Route::delete('/service/destroy/{id}',['uses' =>'ServiceModelController@destroy','as' => 'service.destroy']);
 Route::post('/service', ['uses' => 'ServiceModelController@store','as' => 'service.store']);
+
+#Transaction Details
+Route::get('/transac', ['uses' => 'TransactionModelController@transac','as' => 'transactionAll']);
+Route::get('/transac/{id}', ['uses' => 'TransactionModelController@serviceProcess','as' => 'transacDetails']);
+Route::post('/transac/{id}', ['uses' => 'TransactionModelController@transacUpdate','as' => 'transacUpdate']);
+Route::get('/send-email/{id}', ['uses' => 'TransactionModelController@sendEmail','as' => 'sendEmail']);
 });
+
+Route::group(['middleware' => 'role:admin,customer'], function() {
+  #Transaction
+  Route::get('/transaction', ['uses' => 'TransactionModelController@getServices','as' => 'getServices']);
+  Route::get('/availed-services', ['uses' => 'TransactionModelController@getAvailed','as' => 'getAvailed']);
+  Route::get('/add-avail/{id}', ['uses' =>'TransactionModelController@addAvail','as' => 'addAvail']);
+  Route::get('/remove/{id}',['uses' =>'TransactionModelController@removeService','as' => 'removeService']);
+  Route::get('/payment',['uses' =>'TransactionModelController@payment','as' => 'payment']);
+  // Route::get('checkout',[ItemController::class, 'postCheckout'])->name('checkout');
+  });
