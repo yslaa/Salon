@@ -55,7 +55,7 @@
                   <ul class="nav navbar-nav">
   
                       <li style="padding: 0 1rem;">
-                          <a href="{{ url('/transactions') }}">
+                          <a href="{{ url('/transac') }}">
                               <i class="fa fa-cart-arrow-down" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                               Transaction
                           </a>

@@ -54,7 +54,7 @@
                 <ul class="nav navbar-nav">
 
                     <li style="padding: 0 1rem;">
-                        <a href="{{ url('/transactions') }}">
+                        <a href="{{ url('/transac') }}">
                             <i class="fa fa-cart-arrow-down" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                             Transaction
                         </a>
@@ -67,7 +67,7 @@
                     </li>
 
                     <li style="padding: 0 1rem;">
-                        <a href="{{ url('/service') }}">
+                        <a href="{{ route ('service.index') }}">
                             <i class="fa fa-handshake-o" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                             Services
                         </a>

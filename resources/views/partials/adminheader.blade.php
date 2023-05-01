@@ -6,8 +6,9 @@
     </div>
     <div class="flex-none" style="margin-right:5rem;">
         <ul class="menu menu-horizontal px-1">
-            <li><a href="{{ url('/transactions') }}">Transaction</a></li>
+            <li><a href="{{ url('/transac') }}">Transaction</a></li>
             <li><a href="{{ url('/product') }}">Stock</a></li>
+            <li><a href="{{ url('/service') }}">Services</a></li>
             <li>
                 <a>
                     Charts

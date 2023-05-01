@@ -6,7 +6,6 @@
     </div>
     <div class="flex-none" style="margin-right:5rem;">
         <ul class="menu menu-horizontal px-1">
-            <li><a href="{{ url('') }}">Services</a></li>
 
             <li tabindex="0">
                 @if (Auth::check())

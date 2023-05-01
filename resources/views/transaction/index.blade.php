@@ -22,9 +22,9 @@
                       <p><strong>Product: </strong>{{ $service->product }}</p>
                        <div class="clearfix">
 
-                           <a href="{{ route('addAvail', $service->service_id) }}" class="btn btn-primary" role="button" ><i class="fas fa-cart-plus"></i>Add Service</a> 
+                           <a href="{{ route('addAvail', $service->id) }}" class="btn btn-primary" role="button" ><i class="fas fa-cart-plus"></i>Add Service</a> 
 
-                           <a href="{{ route('addAvail', $service->service_id)}}" class="btn btn-default pull-right" role="button" {{ $disableButton ? 'disabled' : '' }}><i class="fas fa-info"></i> More Info</a>
+                           <a href="{{-- route('addAvail', $service->id) --}}" class="btn btn-default pull-right" role="button" {{ $disableButton ? 'disabled' : '' }}><i class="fas fa-info"></i> More Info</a>
 
                       </div>
                     </div>
