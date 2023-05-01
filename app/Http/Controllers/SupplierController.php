@@ -102,19 +102,24 @@ class SupplierController extends Controller
             'password.min' => 'Your password must be at least 4 characters long.',
         ]);
 
-        $user = new User();
-                $user->name = $request->input("name");
-                $user->email = $request->input("email");
-                $user->password = bcrypt($request->input('password'));
-                $user->role = 'supplier';
+            $user = new User();
+            $user->name = $request->input("name");
+            $user->email = $request->input("email");
+            $user->password = bcrypt($request->input('password'));
+            $user->role = 'supplier';
 
-            if ($request->hasfile("images")) {
-                $file = $request->file("images");
-                $filename =  $file->getClientOriginalName();
-                $file->move("images/supplier/", $filename);
-                $user->images = $filename;
+            $images = array();
+            if ($files = $request->file('images')) {
+                foreach ($files as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/supplier';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/supplier/'.$name;
+                }
             }
-                $user->save();
+
+            $user->images = implode('|', $images);
+            $user->save();
 
         $supplier = new SupplierModel();
                 $supplier->user_id = $user->id;
@@ -180,17 +185,20 @@ class SupplierController extends Controller
         $suppliers = User::find($id);
         $suppliers->name = $request->input("name");
         $suppliers->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = "images/supplier/" . $suppliers->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
+
+        $images = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/admin';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/admin/'.$name;
+                }
+                $admins->images = implode('|', $images);
             }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/supplier/", $filename);
-            $suppliers->images = $filename;
-        }
-        $suppliers->update();
+
+            $admins->update();
+
         return Redirect::to("/supplier")->withSuccessMessage("Supplier Updated!");
     }
 
@@ -226,18 +234,20 @@ class SupplierController extends Controller
         $user = User::find($id);
         $user->name = $request->input("name");
         $user->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = "images/supplier/" . $user->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/supplier/", $filename);
-            $user->images = $filename;
+
+        $images = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+            $name = $file->getClientOriginalName();
+            $destinationPath = public_path().'/images/supplier';
+            $file->move($destinationPath, $name);
+            $images[] = 'images/supplier/'.$name;
         }
-        $user->update();
+
+        $admins->images = implode('|', $images);
+        $admins->update();
         return redirect()->route('supplier.profile');
+        }
     }
 
     /**
@@ -262,12 +272,13 @@ class SupplierController extends Controller
 
     public function forceDelete($id)
     {
-        $suppliers = User::findOrFail($id);
-        $destination = "uploads/suppliers/" . $suppliers->images;
-        if (File::exists($destination)) {
-            File::delete($destination);
-        }
-        $suppliers->forceDelete();
-        return Redirect::to("/supplier")->withSuccessMessage("Supplier Permanently Deleted!");
+        $supplier = User::onlyTrashed()->findOrFail($id);
+            $destination = $supplier->images;
+            if (File::exists($destination)) {
+                File::delete($destination);
+            }
+        $supplier->forceDelete();
+
+        return redirect()->route('admin.index')->withSuccessMessage('Supplier permanently deleted.');
     }
 }

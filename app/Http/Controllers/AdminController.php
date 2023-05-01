@@ -16,10 +16,21 @@ use App\DataTables\AdminDataTable;
 class AdminController extends Controller
 {
 
-    public function index(AdminDataTable $dataTable)
-    {
-        return $dataTable->render('admin.index');
+public function index(AdminDataTable $dataTable)
+{
+    if (session('success_message')) {
+        Alert::image(
+            "Congratulations!",
+            session('success_message'),
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjc2NTBmNjk5M2RlNjdjZTg2MzYzMjEwNTkzNTcwNjc3MTk5NjNhMCZjdD1z/gip7vQSzEepGIoCz4K/giphy.gif",
+            "200",
+            "200",
+            "I Am A Pic"
+        );
     }
+
+    return $dataTable->render('admin.index');
+}
 
      /**
      * Display a listing of the resource.
@@ -110,24 +121,24 @@ class AdminController extends Controller
             'password.min' => 'Your password must be at least 4 characters long.',
         ]);
 
-$user = new User();
-$user->name = $request->input("name");
-$user->email = $request->input("email");
-$user->password = bcrypt($request->input('password'));
-$user->role = 'admin';
+            $user = new User();
+            $user->name = $request->input("name");
+            $user->email = $request->input("email");
+            $user->password = bcrypt($request->input('password'));
+            $user->role = 'admin';
 
-$images = array();
-if ($files = $request->file('images')) {
-    foreach ($files as $file) {
-        $name = $file->getClientOriginalName();
-        $destinationPath = public_path().'/images/admin';
-        $file->move($destinationPath, $name);
-        $images[] = 'images/admin/'.$name;
-    }
-}
+            $images = array();
+            if ($files = $request->file('images')) {
+                foreach ($files as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/admin';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/admin/'.$name;
+                }
+            }
 
-$user->images = implode('|', $images);
-$user->save();
+            $user->images = implode('|', $images);
+            $user->save();
 
         $admin = new AdminModel();
                 $admin->user_id = $user->id;
@@ -190,22 +201,22 @@ $user->save();
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-$admins = User::find($id);
-$admins->name = $request->input("name");
-$admins->email = $request->input("email");
+            $admins = User::find($id);
+            $admins->name = $request->input("name");
+            $admins->email = $request->input("email");
 
-$images = [];
-if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $file) {
-        $name = $file->getClientOriginalName();
-        $destinationPath = public_path().'/images/admin';
-        $file->move($destinationPath, $name);
-        $images[] = 'images/admin/'.$name;
-    }
-    $admins->images = implode('|', $images);
-}
+            $images = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/admin';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/admin/'.$name;
+                }
+                $admins->images = implode('|', $images);
+            }
 
-$admins->update();
+            $admins->update();
 
         return Redirect::to("/admin")->withSuccessMessage("Admin Updated!");
     }
@@ -239,22 +250,23 @@ $admins->update();
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-$admins = User::find($id);
-$admins->name = $request->input("name");
-$admins->email = $request->input("email");
+        $admins = User::find($id);
+        $admins->name = $request->input("name");
+        $admins->email = $request->input("email");
 
-$images = [];
-if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $file) {
-        $name = $file->getClientOriginalName();
-        $destinationPath = public_path().'/images/admin';
-        $file->move($destinationPath, $name);
-        $images[] = 'images/admin/'.$name;
-    }
-    $admins->images = implode('|', $images);
-    $admins->update();
+        $images = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+            $name = $file->getClientOriginalName();
+            $destinationPath = public_path().'/images/admin';
+            $file->move($destinationPath, $name);
+            $images[] = 'images/admin/'.$name;
+        }
+
+        $admins->images = implode('|', $images);
+        $admins->update();
         return redirect()->route('admin.profile');
-    }
+        }
     }
     /**
      * Remove the specified resource from storage.

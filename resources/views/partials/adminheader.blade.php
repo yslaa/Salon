@@ -1,4 +1,4 @@
-<div class="navbar bg-secondary">
+<div class="navbar bg-secondary" style="z-index: 9999">
     <div class="flex-1">
         <a href="{{ url('/') }}">
             <img src="/navbar/salon.png" alt="salon" style="width: 7.5rem">
@@ -65,8 +65,13 @@
                     @if (Auth::check())
                         <li>
                             <a href="{{ url('/adminProfile') }}">
-                                Welcome, {{ Auth::user()->name }}
+                                @if (strlen(Auth::user()->name) > 10)
+                                    Welcome,<br>{{ Auth::user()->name }}
+                                @else
+                                    Welcome, {{ Auth::user()->name }}
+                                @endif
                             </a>
+
                         </li>
                         <li>
                             <a href="{{ url('/admin/profile/edit/{id}') }}">

@@ -1,4 +1,4 @@
-<div class="navbar bg-secondary">
+<div class="navbar bg-secondary" style="z-index: 9999">
     <div class="flex-1">
         <a href="{{ url('/') }}">
             <img src="/navbar/salon.png" alt="salon" style="width: 7.5rem">
