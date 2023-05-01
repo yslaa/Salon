@@ -1,10 +1,9 @@
-
 @extends('layouts.servicemaster')
 
 @section('content')
-<div class="container text-center">
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-10 d-flex justify-content-center">
             <div class="card">
 
                 <div class="card-body">
@@ -72,7 +71,11 @@
                         </div>
                         @endif
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="grid-cols-2 gap-2 w-full d-flex justify-content-center">
+                            {{ Form::submit('Submit', ['class' => 'btn bg-green-500 p-2 mt-2 btn-lg  border-gray-300']) }}
+                            <a href="{{ url()->previous() }}" class="btn bg-gray-800 text-white p-2 mt-2 text-center btn-lg  border-gray-300"
+                                role="button">Cancel</a>
+                        </div>
                     </form>
                 </div>
             </div>
