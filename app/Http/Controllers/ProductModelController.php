@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ProductDataTable;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -16,11 +17,9 @@ class ProductModelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ProductDataTable $dataTable)
     {
-        $products = ProductModel::all();
-        // dd($products);
-        return view("product.index", ["products" => $products]);
+        return $dataTable->render('product.index');
 
     }
 
