@@ -35,11 +35,24 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group text-center">
-                            {{ Form::submit('Submit', ['class' => 'btn bg-green-500 p-2 mt-2 btn-lg border-gray-300']) }}
-                            <a href="{{ url()->previous() }}" class="btn bg-gray-800 text-white p-2 mt-2 btn-lg border-gray-300"
-                                role="button">Cancel</a>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="suppliers" >Supplier</label>
+                                <select class="form-select form-control" aria-label="Select Supplier" name="suppliers">
+                                <option selected>Select Supplier</option>
+                                @foreach($suppliers as $supplier)
+                                    <option value="{{$supplier->supp_id}}">{{$supplier->name}}</option>
+                                @endforeach
+                                </select>
+                        
+                                @error('suppliers')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>

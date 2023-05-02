@@ -125,6 +125,9 @@ Route::get('/transac', ['uses' => 'TransactionModelController@transac','as' => '
 Route::get('/transac/{id}', ['uses' => 'TransactionModelController@serviceProcess','as' => 'transacDetails']);
 Route::post('/transac/{id}', ['uses' => 'TransactionModelController@transacUpdate','as' => 'transacUpdate']);
 Route::get('/send-email/{id}', ['uses' => 'TransactionModelController@sendEmail','as' => 'sendEmail']);
+
+#Yajra Tables
+Route::get('/transac', ['uses' => 'TransactionModelController@transac','as' => 'transactionAll']);
 });
 
 Route::group(['middleware' => 'role:admin,customer'], function() {

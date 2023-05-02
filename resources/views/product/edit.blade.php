@@ -51,7 +51,6 @@
                           <p class="text-center text-red-500">{{ $errors->first('quantity') }}</p>
                       @endif
 
-                  
 
 
                     <div class="grid-cols-2 gap-2 w-full">
@@ -63,9 +62,5 @@
                 {!! Form::close() !!}
             </div>
         @endsection
-
-
-
-
 
 

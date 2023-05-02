@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Storage;
 use Auth;
 use DB;
 
@@ -31,7 +32,10 @@ class ProductModelController extends Controller
     public function create()
     {
         $products = ProductModel::all();
-        return View::make("product.create" , ["products" => $products]);
+        $suppliers = DB::table('suppliers as s')
+        ->join('users as u','u.id', '=', 's.user_id')
+        ->get(['u.name','s.id as supp_id']);
+        return View::make("product.create" , ["products" => $products, "suppliers" => $suppliers]);
     }
 
     /**
@@ -50,12 +54,14 @@ class ProductModelController extends Controller
 
         $products = new ProductModel;
 
-        $supp_id = DB::table('suppliers as s')->join('users as u','u.id', '=', 's.user_id')->value('s.id');
+        // $supp_id = DB::table('suppliers as s')->join('users as u','u.id', '=', 's.user_id')->value('s.id');
 
         $products->product = $request->product;
         $products->description = $request->description;
         $products->quantity = $request->quantity;
-        $products->supplier_id = $supp_id;
+        $products->supplier_id = $request->suppliers;
+        // dd($products);
+        
         // dd($products);
         $products->save();
         return redirect()->route('product.index')->with('message', 'Product Added');
@@ -96,19 +102,7 @@ class ProductModelController extends Controller
     {
         $products = ProductModel::find($id);
         $supp_id = DB::table('suppliers as s')->join('users as u','u.id', '=', 's.user_id')->value('s.id');
-        // if($request->file()) {
-        //     $fileName = time().'_'.$request->file('img_path')->getClientOriginalName();
-           
-        //     // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
-        //     // dd($fileName,$filePath);
-           
-        //     $path = Storage::putFileAs(
-        //         'public/images', $request->file('img_path'), $fileName
-        //     );
-        //     $artist->img_path = '/storage/images/' . $fileName;
-           
-        // }
-       
+
         $products->product = $request->product;
         $products->description = $request->description;
         $products->quantity = $request->quantity;

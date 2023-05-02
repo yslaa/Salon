@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ServiceDataTable;
 use App\Models\ServiceModel;
 use App\Models\ServiceEmployee;
 use App\Models\EmployeeModel;
@@ -17,16 +18,9 @@ class ServiceModelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ServiceDataTable $dataTable)
     {
-        $services =  DB::table('services as s')
-        ->join('products as p','p.id', '=', 's.product_id')
-        ->join('employees as e','e.id', '=', 's.employee_id')
-        ->join('users as u','u.id', '=', 'e.user_id')
-        ->get(['s.id','s.service', 's.cost', 'u.name', 'p.product']);
-
-        return view("service.index", ["services" => $services]);
-
+        return $dataTable->render('service.index');
     }
 
     /**
@@ -150,4 +144,14 @@ class ServiceModelController extends Controller
         ServiceModel::destroy($id);
         return back()->withSuccessMessage("Product Deleted!");
     }
+
+    // public function restore(Request $request, $id)
+    // {
+    //     $service = Service::withTrashed()->findOrFail($id);
+
+    //     $service->restore();
+
+    //     return redirect()->route('service.index')
+    //                     ->with('success','Service has been restored successfully.');
+    // }
 }
