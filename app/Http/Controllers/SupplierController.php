@@ -11,48 +11,67 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\SupplierModel;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\DataTables\SupplierDataTable;
 
 class SupplierController extends Controller
 {
+
+public function index(SupplierDataTable $dataTable)
+{
+    if (session('success_message')) {
+        Alert::image(
+            "Congratulations!",
+            session('success_message'),
+            "https://media3.giphy.com/media/WUrj2q5E7llqOvXTa4/giphy.gif",
+            "200",
+            "200",
+            "I Am A Pic"
+        );
+    }
+
+    return $dataTable->render('supplier.index');
+}
+
      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $supplier = User::join(
-            "suppliers",
-            "users.id",
-            "=",
-            "suppliers.user_id"
-        )
-            ->select(
-                "users.id",
-                "users.name",
-                "users.images",
-                "users.role",
-                "users.deleted_at",
-                "suppliers.user_id",
-            )
-            ->orderBy("suppliers.user_id", "DESC")
-            ->withTrashed()
-            ->get();
 
-        if (session(key: "success_message")) {
-            Alert::image(
-                "Congratulations!",
-                session(key: "success_message"),
-                "https://media3.giphy.com/media/WUrj2q5E7llqOvXTa4/giphy.gif",
-                "200",
-                "200",
-                "I Am A Pic"
-            );
-        }
+    // public function index()
+    // {
+    //     $suppliers = User::join(
+    //         "suppliers",
+    //         "users.id",
+    //         "=",
+    //         "suppliers.user_id"
+    //         )
+    //         ->select(
+    //             "users.id",
+    //             "users.name",
+    //             "users.images",
+    //             "users.role",
+    //             "users.deleted_at",
+    //             "suppliers.user_id",
+    //         )
+    //         ->where('users.id', '<>', Auth::user()->id)  
+    //         ->orderBy("suppliers.user_id", "DESC")
+    //         ->withTrashed()
+    //         ->get();
 
-        return view("supplier.index", ["suppliers" => $supplier]);
-    }
+    //     if (session(key: "success_message")) {
+    //         Alert::image(
+    //             "Congratulations!",
+    //             session(key: "success_message"),
+    //             "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjc2NTBmNjk5M2RlNjdjZTg2MzYzMjEwNTkzNTcwNjc3MTk5NjNhMCZjdD1z/gip7vQSzEepGIoCz4K/giphy.gif",
+    //             "200",
+    //             "200",
+    //             "I Am A Pic"
+    //         );
+    //     }
 
+    //     return view("supplier.index", ["suppliers" => $suppliers]);
+    // }
 
     /**
      * Display a listing of the resource.
@@ -182,27 +201,27 @@ class SupplierController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $suppliers = User::find($id);
-        $suppliers->name = $request->input("name");
-        $suppliers->email = $request->input("email");
+            $suppliers = User::find($id);
+            $suppliers->name = $request->input("name");
+            $suppliers->email = $request->input("email");
 
-        $images = [];
+            $images = [];
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $file) {
                     $name = $file->getClientOriginalName();
-                    $destinationPath = public_path().'/images/admin';
+                    $destinationPath = public_path().'/images/supplier';
                     $file->move($destinationPath, $name);
-                    $images[] = 'images/admin/'.$name;
+                    $images[] = 'images/supplier/'.$name;
                 }
-                $admins->images = implode('|', $images);
+                $suppliers->images = implode('|', $images);
             }
 
-            $admins->update();
+            $suppliers->update();
 
         return Redirect::to("/supplier")->withSuccessMessage("Supplier Updated!");
     }
 
-   public function profileEdit($id)
+    public function profileEdit($id)
     {
         $suppliers = DB::table('users')
             ->join('suppliers', 'users.id', '=', 'suppliers.user_id')
@@ -231,9 +250,9 @@ class SupplierController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $user = User::find($id);
-        $user->name = $request->input("name");
-        $user->email = $request->input("email");
+        $suppliers = User::find($id);
+        $suppliers->name = $request->input("name");
+        $suppliers->email = $request->input("email");
 
         $images = [];
             if ($request->hasFile('images')) {
@@ -244,12 +263,11 @@ class SupplierController extends Controller
             $images[] = 'images/supplier/'.$name;
         }
 
-        $admins->images = implode('|', $images);
-        $admins->update();
+        $suppliers->images = implode('|', $images);
+        $suppliers->update();
         return redirect()->route('supplier.profile');
         }
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -269,16 +287,16 @@ class SupplierController extends Controller
             ->restore();
         return Redirect::to("/supplier")->withSuccessMessage("Supplier Restored!");
     }
+public function forceDelete($id)
+{
+    $supplier = User::onlyTrashed()->findOrFail($id);
+        $destination = $supplier->images;
+        if (File::exists($destination)) {
+            File::delete($destination);
+        }
+    $supplier->forceDelete();
 
-    public function forceDelete($id)
-    {
-        $supplier = User::onlyTrashed()->findOrFail($id);
-            $destination = $supplier->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-        $supplier->forceDelete();
+    return redirect()->route('supplier.index')->withSuccessMessage('Supplier permanently deleted.');
+}
 
-        return redirect()->route('admin.index')->withSuccessMessage('Supplier permanently deleted.');
-    }
 }
