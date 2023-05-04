@@ -13,18 +13,18 @@
         <h2 class="font-inter-bold font-bold text-lg md:text-xl lg:text-2xl mb-8 text-center text-gray-700">
           Welcome to Serenity Salon <i style="color: #28BD5F">{{ $employee->name }}!</i>
       </h2>
-        <div class="mx-auto my-10">
-          @if ($employee->images)
-          <div class="flex justify-center items-center">
-            @foreach (explode('|', $employee->images) as $image)
-            <div class="avatar mx-2">
-              <div class="w-full h-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 flex justify-center items-center">
-                <img src="{{ asset($image) }}" alt="I am A Pic" class="w-full h-full object-cover">
-              </div>
+      <div class="mx-auto my-10">
+        @if ($employee->images)
+        <div class="flex justify-center items-center">
+          @foreach (explode('|', $employee->images) as $image)
+          <div class="avatar mx-2">
+            <div class="w-full h-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 flex justify-center items-center">
+              <img src="{{ asset($image) }}" alt="I am A Pic" class="w-full h-full object-cover">
             </div>
-            @endforeach
           </div>
-          @endif
+          @endforeach
+        </div>
+        @endif
           <div class="bg-white border rounded-md shadow-lg p-5 mt-7" style="border: 2px solid #718096">
             <div class="flex flex-col space-y-2">
               <div class="font-inter-bold font-bold" id="spam">ID: <span style="color:#28BD5F">{{ $employee->id }}</span></div>

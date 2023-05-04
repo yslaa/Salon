@@ -11,54 +11,72 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\EmployeeModel;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\DataTables\EmployeeDataTable;
 
 class EmployeeController extends Controller
 {
+
+    public function index(EmployeeDataTable $dataTable)
+    {
+        
+            if (session('success_message')) {
+                Alert::image(
+                    "Congratulations!",
+                    session('success_message'),
+                    "https://i.pinimg.com/originals/59/c2/82/59c2820a57734d7fb2780dd47eed6f23.gif",
+                    "200",
+                    "200",
+                    "I Am A Pic"
+                );
+            }
+        return $dataTable->render('employee.index');
+    }
+
      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $employee = User::join(
-            "employees",
-            "users.id",
-            "=",
-            "employees.user_id"
-        )
-            ->select(
-                "users.id",
-                "users.name",
-                "users.images",
-                "users.role",
-                "users.deleted_at",
-                "employees.user_id",
-                "employees.employee_role",
-            )
-            ->orderBy("employees.user_id", "DESC")
-            ->withTrashed()
-            ->get();
 
-        if (session(key: "success_message")) {
-            Alert::image(
-                "Congratulations!",
-                session(key: "success_message"),
-                "https://cdn.dribbble.com/users/2560959/screenshots/5827235/media/fe898ba977bd59591c82bb20da8eeff5.gif",
-                "200",
-                "200",
-                "I Am A Pic"
-            );
-        }
+    // public function index()
+    // {
+    //     $employees = User::join(
+    //         "employees",
+    //         "users.id",
+    //         "=",
+    //         "employees.user_id"
+    //         )
+    //         ->select(
+    //             "users.id",
+    //             "users.name",
+    //             "users.images",
+    //             "users.role",
+    //             "users.deleted_at",
+    //             "employees.user_id",
+    //         )
+    //         ->where('users.id', '<>', Auth::user()->id)  
+    //         ->orderBy("employees.user_id", "DESC")
+    //         ->withTrashed()
+    //         ->get();
 
-        return view("employee.index", ["employees" => $employee]);
-    }
+    //     if (session(key: "success_message")) {
+    //         Alert::image(
+    //             "Congratulations!",
+    //             session(key: "success_message"),
+    //             "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjc2NTBmNjk5M2RlNjdjZTg2MzYzMjEwNTkzNTcwNjc3MTk5NjNhMCZjdD1z/gip7vQSzEepGIoCz4K/giphy.gif",
+    //             "200",
+    //             "200",
+    //             "I Am A Pic"
+    //         );
+    //     }
 
+    //     return view("employee.index", ["employees" => $employees]);
+    // }
 
     /**
      * Display a listing of the resource.
      */
-    public function getEmployeeProfile()
+    public function getemployeeProfile()
     {
         $employee = User::join(
             "employees",
@@ -72,7 +90,6 @@ class EmployeeController extends Controller
                 "users.images",
                 "users.role",
                 "employees.user_id",
-                "employees.employee_role",
             )
             ->where('employees.user_id',Auth::id())
             ->first();
@@ -104,23 +121,27 @@ class EmployeeController extends Controller
             'password.min' => 'Your password must be at least 4 characters long.',
         ]);
 
-        $user = new User();
-                $user->name = $request->input("name");
-                $user->email = $request->input("email");
-                $user->password = bcrypt($request->input('password'));
-                $user->role = 'employee';
+            $user = new User();
+            $user->name = $request->input("name");
+            $user->email = $request->input("email");
+            $user->password = bcrypt($request->input('password'));
+            $user->role = 'employee';
 
-            if ($request->hasfile("images")) {
-                $file = $request->file("images");
-                $filename =  $file->getClientOriginalName();
-                $file->move("images/employee/", $filename);
-                $user->images = $filename;
+            $images = array();
+            if ($files = $request->file('images')) {
+                foreach ($files as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/employee';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/employee/'.$name;
+                }
             }
-                $user->save();
 
-        $employee = new EmployeeModel();
+            $user->images = implode('|', $images);
+            $user->save();
+
+        $employee = new employeeModel();
                 $employee->user_id = $user->id;
-                $employee->employee_role = $request->input("employee_role");
 
         $employee->save();
        return redirect()->route('user.signIn');
@@ -143,7 +164,6 @@ class EmployeeController extends Controller
                 "users.images",
                 "users.role",
                 "employees.user_id",
-                "employees.employee_role",
             )
             ->where('employees.user_id', $id)
             ->get();
@@ -159,11 +179,8 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        $users = User::find($id);
-        $employees = EmployeeModel::join('users', 'employees.user_id', '=', 'users.id')
-                              ->where('users.id', '=', $id)
-                              ->first();
-        return view('employee.edit', compact('users', 'employees'));
+        $employees = User::find($id);
+        return view("employee.edit",  compact('employees'));
     }
 
     /**
@@ -184,30 +201,27 @@ class EmployeeController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-            $users = User::find($id);
-            $users->name = $request->input("name");
-            $users->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = "images/employee/" . $users->images;
-        if (File::exists($destination)) {
-            File::delete($destination);
-        }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/employee/", $filename);
-            $users->images = $filename;
-        }
-        $users->update();
+            $employees = User::find($id);
+            $employees->name = $request->input("name");
+            $employees->email = $request->input("email");
 
-        $employees = EmployeeModel::where('user_id', '=', $id)->first();
-        $employees->employee_role = $request->input("employee_role");
-        $employees->update();
-        return Redirect::to("/employee")->withSuccessMessage("Employee Updated!");
+            $images = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $name = $file->getClientOriginalName();
+                    $destinationPath = public_path().'/images/employee';
+                    $file->move($destinationPath, $name);
+                    $images[] = 'images/employee/'.$name;
+                }
+                $employees->images = implode('|', $images);
+}
+
+$employees->update();
+
+        return Redirect::to("/employee")->withSuccessMessage("employee Updated!");
     }
 
-
-
-   public function profileEdit($id)
+    public function profileEdit($id)
     {
         $employees = DB::table('users')
             ->join('employees', 'users.id', '=', 'employees.user_id')
@@ -219,7 +233,6 @@ class EmployeeController extends Controller
                     "users.images",
                     "users.role",
                     "employees.user_id",
-                    "employees.employee_role",
                 )
             ->first();
 
@@ -237,23 +250,23 @@ class EmployeeController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $user = User::find($id);
-        $user->name = $request->input("name");
-        $user->email = $request->input("email");
-        if ($request->hasfile("images")) {
-            $destination = "images/employee/" . $user->images;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file("images");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/employee/", $filename);
-            $user->images = $filename;
-        }
-        $user->update();
+$employees = User::find($id);
+$employees->name = $request->input("name");
+$employees->email = $request->input("email");
+
+$images = [];
+if ($request->hasFile('images')) {
+    foreach ($request->file('images') as $file) {
+        $name = $file->getClientOriginalName();
+        $destinationPath = public_path().'/images/employee';
+        $file->move($destinationPath, $name);
+        $images[] = 'images/employee/'.$name;
+    }
+    $employees->images = implode('|', $images);
+    $employees->update();
         return redirect()->route('employee.profile');
     }
-
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -263,7 +276,7 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
-        return Redirect::to("/employee")->withSuccessMessage("Employee Deleted!");
+        return Redirect::to("/employee")->withSuccessMessage("employee Deleted!");
     }
 
      public function restore($id)
@@ -271,17 +284,18 @@ class EmployeeController extends Controller
         User::onlyTrashed()
             ->findOrFail($id)
             ->restore();
-        return Redirect::to("/employee")->withSuccessMessage("Employee Restored!");
+        return Redirect::to("/employee")->withSuccessMessage("employee Restored!");
     }
-
-    public function forceDelete($id)
-    {
-        $employees = User::findOrFail($id);
-        $destination = "uploads/employees/" . $employees->images;
+public function forceDelete($id)
+{
+    $employee = User::onlyTrashed()->findOrFail($id);
+        $destination = $employee->images;
         if (File::exists($destination)) {
             File::delete($destination);
         }
-        $employees->forceDelete();
-        return Redirect::to("/employee")->withSuccessMessage("Employee Permanently Deleted!");
-    }
+    $employee->forceDelete();
+
+    return redirect()->route('employee.index')->withSuccessMessage('employee permanently deleted.');
+}
+
 }
