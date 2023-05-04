@@ -15,8 +15,18 @@
             <section class="flex flex-wrap justify-center gap-3 p-12 w-full">
                 <div
                     class="max-w-sm bg-white rounded-lg border border-white-200 shadow-md dark:bg-white-800 dark:border-white-700">
-                    <img src="{{ asset('images/supplier/' . $supplier->images) }}" alt="I am A Pic" width="400"
-                        style="max-height: 12rem;">
+                    @if ($customer->images)
+                    <div class="flex justify-center items-center">
+                        @foreach (explode('|', $customer->images) as $image)
+                            <div class="avatar mx-2">
+                                <div
+                                    class="w-full h-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 flex justify-center items-center">
+                                    <img src="{{ asset($image) }}" alt="I am A Pic" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
                     <div class="p-3">
                         <h5 class="mb-2 text-2xl font-bold text-center tracking-tight">{{ $supplier->name }}
                         </h5>
